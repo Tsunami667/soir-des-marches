@@ -1,0 +1,893 @@
+<title>Le Soir des Marchés</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : une colonne de lecture (~68ch), bandeau d'alerte, tableaux chiffrés en mono, dossiers en blocs Faits / Contexte / Impact. */
+:root {
+  --bg: #f2f4f6;
+  --surface: #ffffff;
+  --ink: #15202b;
+  --muted: #5a6876;
+  --line: #d5dce3;
+  --accent: #0d5c63;
+  --accent-soft: #dcecee;
+  --up: #12784a;
+  --down: #b3261e;
+  --warn-bg: #fff4e0;
+  --warn-ink: #7a4a00;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f161c; --surface: #161f27; --ink: #e4eaef; --muted: #93a1ad; --line: #2a3742;
+    --accent: #5fb7bd; --accent-soft: #1b3236; --up: #4cc38a; --down: #ff7b72;
+    --warn-bg: #2e2412; --warn-ink: #f2c46d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f161c; --surface: #161f27; --ink: #e4eaef; --muted: #93a1ad; --line: #2a3742;
+  --accent: #5fb7bd; --accent-soft: #1b3236; --up: #4cc38a; --down: #ff7b72;
+  --warn-bg: #2e2412; --warn-ink: #f2c46d; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 2.9rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.45rem; font-weight: 700; }
+h3 { font-size: 1.18rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.label { font-family: var(--font-display); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.up { color: var(--up); } .down { color: var(--down); } .flat { color: var(--muted); }
+
+header { display: grid; gap: 10px; border-bottom: 3px solid var(--ink); padding-bottom: 18px; }
+.mast-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+.lede { font-size: 1.05rem; color: var(--muted); max-width: 62ch; }
+
+.alert { background: var(--warn-bg); color: var(--warn-ink); border-radius: 10px; padding: 16px 18px; display: grid; gap: 6px; }
+.alert strong { font-family: var(--font-display); }
+
+section { display: grid; gap: 18px; }
+.sec-head { display: grid; gap: 4px; }
+
+.essentiel { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; }
+.essentiel li::marker { color: var(--accent); font-weight: 700; }
+
+.board { display: grid; gap: 22px; }
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+caption { text-align: left; padding-bottom: 6px; }
+th, td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; white-space: normal; }
+thead th { font-family: var(--font-display); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+td.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+th.ytd, td.ytd { padding-left: 4px; }
+.ytd-box { display: inline-block; font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 0.76rem; padding: 1px 6px; border-radius: 6px; border: 1px solid currentColor; }
+.note { font-size: 0.82rem; color: var(--muted); }
+
+.dossier { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; gap: 14px; }
+.dossier .kicker { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.chip.hot { background: var(--warn-bg); color: var(--warn-ink); }
+.block { display: grid; gap: 4px; }
+.impact { border-left: 3px solid var(--accent); padding-left: 14px; display: grid; gap: 6px; }
+.impact ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.src { font-size: 0.82rem; color: var(--muted); }
+
+.breves { display: grid; gap: 22px; }
+.breves ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; }
+
+.sectors { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.sectors > div { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 10px; align-content: start; }
+.sectors ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; }
+
+.watch { display: grid; gap: 0; }
+.watch-row { display: grid; grid-template-columns: 11rem 1fr; gap: 6px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.watch-row > div { min-width: 0; display: grid; gap: 4px; align-content: start; }
+.watch-name { font-family: var(--font-display); font-weight: 700; }
+.watch-move { font-family: var(--font-data); font-size: 0.85rem; }
+.watch-levels { font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+@media (max-width: 520px) { .watch-row { grid-template-columns: 1fr; } }
+
+/* Fiches valeur (édition du dimanche) */
+.fiches { display: grid; gap: 18px; }
+.fiche { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; gap: 16px; }
+.fiche-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: baseline; }
+.fiche-price { font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 1.05rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.today { display: grid; gap: 4px; border-left: 3px solid var(--accent); padding-left: 14px; }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px 16px; margin: 0; }
+.metrics > div { min-width: 0; display: grid; gap: 2px; }
+.metrics dt { font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.metrics dd { margin: 0; font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 0.95rem; }
+.range { display: grid; gap: 10px; }
+.range-bar { position: relative; height: 72px; margin-inline: 14px; }
+.range-track { position: absolute; left: 0; right: 0; top: 22px; height: 8px; border-radius: 999px; background: linear-gradient(90deg, var(--down), var(--line) 50%, var(--up)); opacity: 0.85; }
+.range-mark { position: absolute; top: 15px; width: 5px; height: 22px; margin-left: -2.5px; border-radius: 2px; background: var(--ink); box-shadow: 0 0 0 2px var(--surface); }
+.range-ma { position: absolute; top: 20px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; border: 2px solid var(--ink); background: var(--surface); }
+.range-ma-label { position: absolute; top: 0; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.68rem; color: var(--ink); white-space: nowrap; }
+.range-tick { position: absolute; top: 33px; width: 2px; height: 8px; margin-left: -1px; }
+.range-tag { position: absolute; top: 42px; transform: translateX(-50%); font-family: var(--font-data); font-size: 0.68rem; font-weight: 500; white-space: nowrap; }
+.range-tag.row2 { top: 56px; }
+.range-tick.sup { background: var(--up); }
+.range-tick.res { background: var(--down); }
+.range-tag.sup { color: var(--up); }
+.range-tag.res { color: var(--down); }
+.range-ends { display: flex; justify-content: space-between; gap: 12px; font-family: var(--font-data); font-size: 0.78rem; color: var(--muted); }
+.ladder { list-style: none; margin: 0; padding: 0; display: grid; font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 0.85rem; }
+.ladder li { display: grid; grid-template-columns: 4.5rem 1fr auto; gap: 12px; padding: 4px 8px; border-bottom: 1px dashed var(--line); }
+.ladder li > span:first-child { font-family: var(--font-display); font-weight: 700; font-size: 0.74rem; letter-spacing: 0.04em; align-self: center; }
+.ladder li > span:last-child { text-align: right; color: var(--muted); }
+.ladder .res > span:first-child { color: var(--down); }
+.ladder .sup > span:first-child { color: var(--up); }
+.ladder .ma > span:first-child { color: var(--muted); }
+.ladder .now { background: var(--accent-soft); border-radius: 6px; border-bottom-color: transparent; font-weight: 500; }
+.ladder .now > span:first-child { color: var(--accent); }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.scenario { min-width: 0; border-radius: 10px; padding: 12px 14px; background: var(--bg); display: grid; gap: 4px; }
+.scenario .target { font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 1rem; }
+
+.agenda { display: grid; gap: 0; }
+.agenda + .label { margin-top: 10px; }
+.ag-row { display: grid; grid-template-columns: 7.5rem 1fr; gap: 4px 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.ag-row > div { min-width: 0; }
+.ag-date { font-family: var(--font-data); font-size: 0.85rem; color: var(--accent); font-weight: 500; }
+.countdown { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); }
+@media (max-width: 520px) { .ag-row { grid-template-columns: 1fr; } }
+
+footer { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="label">Édition du soir</span>
+  <h1>Le Soir des Marchés</h1>
+  <div class="mast-meta">
+    <span>Mardi 3 novembre 2026</span>
+    <span>Lecture ≈ 12 min</span>
+  </div>
+  <p class="lede">Les Américains votent pour les élections de mi-mandat, et les marchés ont attendu sans prendre de position forte. Les semi-conducteurs ont rebondi (Nasdaq 100 +0,68 %), mais Apple a pesé sur le Dow Jones après une prévision de marge décevante. Après la clôture, AMD a battu les attentes et relevé sa prévision. Le pétrole s'est stabilisé malgré des frappes américaines limitées sur l'île iranienne de Qeshm, et l'Australie a relevé ses taux pour la cinquième fois de l'année.</p>
+</header>
+
+<section>
+  <div class="sec-head">
+    <span class="label">En bref</span>
+    <h2>L'essentiel en cinq points</h2>
+  </div>
+  <ol class="essentiel">
+    <li><strong>Jour d'élection, séance d'attente.</strong> Le S&amp;P 500 gagne 0,36 % à 7 569 points et le Nasdaq 100 0,68 %, mais le Dow Jones perd 0,38 %. Le CAC 40 cède 0,34 % à 8 020 points et reste au-dessus de 8 000. Les premiers résultats tomberont dans la nuit, heure de Paris. Le contrôle de la Chambre pourrait n'être connu qu'après plusieurs jours.</li>
+    <li><strong>Apple déçoit sur les marges, AMD rassure sur l'IA.</strong> Apple prévoit une marge brute de 45 à 46 % pour le trimestre de Noël, sous les attentes, à cause du prix de la mémoire. L'action a perdu ≈ 2 %. Après la clôture, AMD publie 13,38 Md$ de chiffre d'affaires et prévoit ≈ 17 Md$ pour le trimestre en cours, contre ≈ 16,2 Md$ attendus.</li>
+    <li><strong>Iran : frappes limitées, pétrole stable.</strong> Les États-Unis ont frappé des cibles sur l'île de Qeshm, dans le détroit d'Ormuz, après des tirs iraniens contre un avion américain. Le Brent finit quasi stable à 104,51 $ (−0,25 %). Les médiateurs qatariens poursuivent les échanges.</li>
+    <li><strong>Banques centrales en mode restrictif.</strong> La Banque de réserve d'Australie relève son taux à 4,85 %, un plus haut depuis 18 ans, par 6 voix contre 3. Aux États-Unis, la probabilité d'une hausse de la Fed le 9 décembre est estimée entre 73 % et 79 % selon les relevés. Le taux à 10 ans remonte à 4,95 % et l'or recule de 0,9 %.</li>
+    <li><strong>Watchlist : LVMH franchit sa résistance.</strong> Le titre gagne 1,99 % à 401,50 € et passe au-dessus de 399,55 €. La MM50 est à 0,5 % au-dessus du cours. BNP est à 0,6 % de sa résistance et le CL2 repasse sous sa MM50. Le Nasdaq 100 s'éloigne de sa MM200 (+0,8 %).</li>
+  </ol>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Tableau de bord</span>
+    <h2>Les chiffres de la clôture</h2>
+    <p class="note">Clôtures du jour (Yahoo Finance). « ≈ » signale un chiffre non confirmé, « n.d. » un chiffre indisponible.</p>
+  </div>
+  <div class="board">
+    <div class="tbl-wrap">
+      <table>
+        <caption class="label">Indices actions</caption>
+        <thead><tr><th>Indice</th><th>Clôture</th><th>Jour</th><th>5 séances</th><th class="ytd" title="Performance depuis le 1er janvier">YTD</th></tr></thead>
+        <tbody>
+          <tr><td>CAC 40</td><td class="num">8 020</td><td class="num down">−0,34 %</td><td class="num up">+1,69 %</td><td class="ytd"><span class="ytd-box down">−1,6 %</span></td></tr>
+          <tr><td>SBF 120</td><td class="num">n.d.</td><td class="num flat">n.d.</td><td class="num flat">n.d.</td><td class="ytd"><span class="ytd-box flat">n.d.</span></td></tr>
+          <tr><td>DAX</td><td class="num">25 865</td><td class="num down">−0,45 %</td><td class="num up">+1,07 %</td><td class="ytd"><span class="ytd-box up">+5,6 %</span></td></tr>
+          <tr><td>Euro Stoxx 50</td><td class="num">6 145</td><td class="num down">−0,51 %</td><td class="num down">−0,33 %</td><td class="ytd"><span class="ytd-box up">+6,0 %</span></td></tr>
+          <tr><td>S&amp;P 500</td><td class="num">7 569</td><td class="num up">+0,36 %</td><td class="num down">−1,99 %</td><td class="ytd"><span class="ytd-box up">+10,6 %</span></td></tr>
+          <tr><td>Nasdaq Composite</td><td class="num">25 372</td><td class="num up">+0,83 %</td><td class="num down">−4,18 %</td><td class="ytd"><span class="ytd-box up">+9,2 %</span></td></tr>
+          <tr><td>Nasdaq 100</td><td class="num">28 180</td><td class="num up">+0,68 %</td><td class="num down">−4,96 %</td><td class="ytd"><span class="ytd-box up">+11,6 %</span></td></tr>
+          <tr><td>Dow Jones</td><td class="num">51 787</td><td class="num down">−0,38 %</td><td class="num down">−1,13 %</td><td class="ytd"><span class="ytd-box up">+7,8 %</span></td></tr>
+          <tr><td>VIX</td><td class="num">20,83</td><td class="num down">−1,51 %</td><td class="num up">+18,89 %</td><td class="ytd"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <caption class="label">Taux souverains 10 ans</caption>
+        <thead><tr><th>Emprunt</th><th>Rendement</th><th>Jour</th><th>Commentaire</th></tr></thead>
+        <tbody>
+          <tr><td>US Treasury</td><td class="num">4,95 %</td><td class="num up">+1,19 %</td><td>Yahoo Finance (≈ +6 pb)</td></tr>
+          <tr><td>OAT France</td><td class="num">≈ 4,91 %</td><td class="num flat">n.d.</td><td>relevé Idéal Investisseur</td></tr>
+          <tr><td>Bund Allemagne</td><td class="num">≈ 3,31 %</td><td class="num flat">n.d.</td><td>relevé Idéal Investisseur</td></tr>
+          <tr><td>Écart OAT-Bund</td><td class="num">≈ 160 pb</td><td class="num flat">n.d.</td><td>calculé</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <caption class="label">Matières premières et devises</caption>
+        <thead><tr><th>Actif</th><th>Niveau</th><th>Jour</th><th>5 séances</th></tr></thead>
+        <tbody>
+          <tr><td>Brent</td><td class="num">104,51 $</td><td class="num down">−0,25 %</td><td class="num down">−8,23 %</td></tr>
+          <tr><td>WTI</td><td class="num">96,89 $</td><td class="num up">+0,45 %</td><td class="num down">−3,01 %</td></tr>
+          <tr><td>Or</td><td class="num">3 934 $</td><td class="num down">−0,90 %</td><td class="num down">−3,45 %</td></tr>
+          <tr><td>Gaz TTF</td><td class="num">n.d.</td><td class="num flat">n.d.</td><td class="num flat">n.d.</td></tr>
+          <tr><td>EUR/USD</td><td class="num">1,1194</td><td class="num up">+0,34 %</td><td class="num up">+0,18 %</td></tr>
+          <tr><td>Dollar index</td><td class="num">101,86</td><td class="num up">+0,11 %</td><td class="num down">−0,45 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Brent : en séance, Reuters relevait ≈ 103,14 $ (−2 %) vers 16 h 45 (heure de Paris) avant une reprise en fin de journée. Les variations sur cinq séances incluent le changement de contrat. Gaz TTF : historique Yahoo insuffisant.</p>
+    <div class="tbl-wrap">
+      <table>
+        <caption class="label">Cryptos</caption>
+        <thead><tr><th>Actif</th><th>Prix</th><th>Jour</th><th>5 jours</th></tr></thead>
+        <tbody>
+          <tr><td>Bitcoin (BTC)</td><td class="num">77 860 $</td><td class="num up">+1,54 %</td><td class="num up">+0,11 %</td></tr>
+          <tr><td>Ether (ETH)</td><td class="num">2 296 $</td><td class="num up">+2,07 %</td><td class="num up">+2,05 %</td></tr>
+          <tr><td>Solana (SOL)</td><td class="num">93,73 $</td><td class="num up">+2,06 %</td><td class="num down">−1,85 %</td></tr>
+          <tr><td>Tron (TRX)</td><td class="num">0,3228 $</td><td class="num up">+1,21 %</td><td class="num down">−7,89 %</td></tr>
+          <tr><td>Litecoin (LTC)</td><td class="num">54,69 $</td><td class="num up">+1,96 %</td><td class="num down">−0,41 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Dossiers</span>
+    <h2>Les news qui comptent</h2>
+  </div>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip hot">États-Unis</span><span class="chip">Élections</span></div>
+    <h3>Mi-mandat : les marchés attendent le dépouillement</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p>Les Américains renouvellent la Chambre des représentants et un tiers du Sénat. Les républicains y disposent aujourd'hui de 218 sièges contre 212, et de 53 sièges contre 45 au Sénat (≈ 53-47 selon une autre page de NBC). Les démocrates doivent gagner trois sièges nets pour prendre le Sénat. Les indices ont évolué dans des marges étroites et le VIX a reculé de 1,51 % à 20,83.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>Axios rappelle que, dans toutes les élections nationales depuis 2018, les votes comptés à 21 h (heure de New York) étaient de 4 à 9 points plus républicains que le résultat final. Lors des trois dernières élections, l'AP n'a annoncé le contrôle de la Chambre que sept ou huit jours après le scrutin. La soirée pourrait donc envoyer de faux signaux. Hier, nous écrivions que les démocrates étaient favoris à la Chambre. Les cryptos suivent ce scrutin de près, car une Chambre démocrate compromettrait le projet de loi CLARITY sur la structure du marché.</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>Un Congrès divisé (Chambre démocrate, Sénat républicain) limiterait les nouvelles lois budgétaires et fiscales. C'est le scénario le plus attendu, dont une partie est déjà dans les cours.</li>
+        <li>Un résultat contesté ou un dépouillement très long prolongerait l'incertitude et pourrait faire remonter le VIX, avec un effet direct sur le CL2, l'ETF à levier.</li>
+        <li>Donald Trump a plusieurs fois évoqué une reprise des frappes sur l'Iran après le scrutin : c'est le principal risque géopolitique des prochains jours.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://www.axios.com/2026/11/03/2026-midterm-election-results-red-mirage-senate-races">Axios</a> · <a href="https://www.nbcnews.com/politics/2026-elections/senate-results">NBC News</a> · <a href="https://whyy.org/articles/election-2026-results-midterms-house-senate-congress/">WHYY</a> · <a href="https://www.inkl.com/news/bitcoin-price-today-btc-usd-near-77-000-as-us-midterm-elections-2026-put-crypto-bill-at-risk-heres-what-traders-need-to-know">inkl</a></p>
+  </article>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip hot">Géopolitique</span><span class="chip">Pétrole</span></div>
+    <h3>Frappes américaines sur Qeshm, mais la diplomatie tient le pétrole</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p>Lundi soir, les États-Unis ont mené des frappes limitées sur l'île iranienne de Qeshm, dans le détroit d'Ormuz. Selon trois responsables américains cités par CBS, il s'agissait d'une riposte défensive après des tirs des Gardiens de la révolution contre un avion américain. Le vice-ministre iranien des Affaires étrangères a réaffirmé le droit de l'Iran à se défendre. JD Vance s'est dit optimiste sur un règlement négocié, et des médiateurs qatariens se sont rendus à Téhéran. Le Qatar affirme que les deux camps examinent ses propositions, sans progrès concret à annoncer. Le Brent a touché ≈ 103,14 $ en séance avant de finir à 104,51 $ (−0,25 %). Le WTI gagne 0,45 % à 96,89 $.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>Hier, le brut avait perdu 7 à 8 % sur l'espoir d'une solution diplomatique. Le marché a vu dans ces frappes un incident ponctuel plutôt qu'une reprise de la guerre commencée le 28 février. Selon ABC, Benyamin Netanyahou pousse pourtant Washington à frapper davantage. Goldman Sachs fixe sa prévision de Brent pour décembre à 105 $, mais prévient qu'il pourrait atteindre 140 $ en 2027 si la production du Golfe restait inférieure de 3,5 millions de barils par jour à sa moyenne de 2025.</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>Le pétrole reste suspendu à deux décisions : la réponse de Washington au plan de réouverture d'Ormuz et une éventuelle reprise des frappes après les élections. Les deux peuvent faire varier le Brent de plusieurs dollars en une séance.</li>
+        <li>TotalEnergies (−1,08 %) se rapproche de son support à 81,25 € (−1,8 %).</li>
+        <li>Un brut stable autour de 100 $ aide les anticipations d'inflation européennes, mais ne suffit pas à faire baisser l'OAT, toujours proche de 4,9 %.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://www.cbsnews.com/news/u-s-strikes-iran-targets/">CBS News</a> · <a href="https://www.cnbc.com/2026/11/03/iran-us-vance-trump-strikes.html">CNBC</a> · <a href="https://www.cnn.com/2026/11/02/politics/us-strikes-iran-qeshm-island">CNN</a> · <a href="https://abc7news.com/post/us-iran-war-news-israels-benjamin-netanyahu-wants-donald-trump-administration-carry-new-strikes-officials-tell-ap/20009648/">ABC7 / AP</a> · <a href="https://www.tokenpost.com/news/investing/47912">TokenPost (Reuters)</a> · <a href="https://finance.yahoo.com/energy/articles/oil-prices-fall-nearly-4-103102413.html">Yahoo Finance</a></p>
+  </article>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip hot">Tech</span><span class="chip">Résultats</span></div>
+    <h3>Apple inquiète sur les marges, AMD relance l'IA après la clôture</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p><strong>Apple</strong> prévoit une marge brute de 45 à 46 % pour le trimestre de Noël, contre ≈ 46,3 à 47 % attendus. La hausse du prix de la mémoire explique l'essentiel du recul, et le déploiement de Siri en IA coûte aussi. L'iPad (≈ 6,23 Md$ contre ≈ 6,7 Md$ attendus) et la Chine (17,5 Md$, ≈ 1,2 Md$ sous les attentes selon TheStreet) déçoivent. La croissance du chiffre d'affaires est attendue entre 7 et 10 %. L'action a perdu ≈ 2 % et a pesé sur le Dow Jones, indice pondéré par les prix. <strong>AMD</strong>, qui avait perdu près de 20 % en trois séances, a rebondi d'environ 4 à 5 % en séance. Après la clôture, le groupe a publié 13,38 Md$ de chiffre d'affaires (+45 %) et un bénéfice ajusté de 2,09 $ par action (1,94 $ attendu). Les centres de données progressent de 97 % à 8,5 Md$. AMD prévoit ≈ 17 Md$ (±3 %) pour le trimestre en cours, contre ≈ 16,2 Md$ attendus.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>Les semi-conducteurs ont rebondi après trois séances de purge (Marvell, Oracle). Le Nasdaq 100 restait pourtant en correction, à environ 10 % de son record du 6 octobre. La réaction d'AMD après la clôture était confuse à l'écriture de cette édition : Investing.com parlait d'une hausse de plus de 7 %, un blog en direct de 24/7 Wall St. évoquait une chute de 9 %. Le chiffre retenu demain matin compte pour toute la filière, avant Qualcomm et Arm.</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>Une prévision à 17 Md$ contredit en partie les craintes sur la demande en IA : si la hausse d'AMD se confirme, le Nasdaq 100 pourrait viser sa résistance à 28 722 (+1,9 %).</li>
+        <li>Le message d'Apple sur la mémoire montre un autre visage du cycle de l'IA : la demande des centres de données fait monter les coûts des fabricants d'appareils grand public.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://moneycheck.com/apple-aapl-stock-falls-3-after-earnings-as-margin-forecast-disappoints/">MoneyCheck</a> · <a href="https://www.cnbc.com/2026/11/02/apple-aapl-q4-2026-earnings-live-updates.html">CNBC</a> · <a href="https://www.tradingkey.com/analysis/stocks/us-stocks/262266155-apple-stock-forecast-q4-earnings-memory-costs-margin-guide-330-support-november-3-2026-tradingkey">TradingKey</a> · <a href="https://www.investing.com/news/earnings/amd-stock-jumps-after-hours-as-quarterly-results-revenue-guidance-beat-estimates-4996344">Investing.com (AMD)</a> · <a href="https://investinglive.com/stocks/amd-shares-rise-after-hours-as-q4-revenue-outlook-of-17bn-tops-forecasts-on-ai-ramp/">investingLive</a> · <a href="https://www.stocktitan.net/news/AMD/amd-reports-third-quarter-2026-financial-7j6jzo29buqw.html">StockTitan</a> · <a href="https://247wallst.com/investing/2026/11/03/live-will-amd-crush-q3-earnings-tonight-after-a-4-intraday-pop/">24/7 Wall St.</a> · <a href="https://www.investing.com/news/stock-market-news/us-stock-futures-steady-apple-dips-after-mixed-earnings-4993314">Investing.com (clôture)</a></p>
+  </article>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip">Banques centrales</span><span class="chip">Taux</span></div>
+    <h3>L'Australie relève encore ses taux, la Fed de décembre se rapproche</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p>La Banque de réserve d'Australie a relevé son taux directeur de 25 pb à 4,85 %, son niveau le plus haut depuis 2008 et sa cinquième hausse de l'année. La décision a été prise par 6 voix contre 3, trois membres voulant rester à 4,60 %. La banque centrale cite l'inflation (4,3 % sur un an en septembre), la guerre au Moyen-Orient et le pétrole. Aux États-Unis, le taux à 10 ans remonte à 4,95 % et la probabilité d'une hausse de la Fed le 9 décembre ressort entre 73 % et 79 % selon les relevés du CME. L'or recule de 0,90 % à 3 934 $.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>La Fed a maintenu ses taux entre 3,75 % et 4,00 % fin octobre, après une hausse en septembre. Deux responsables voulaient déjà relever les taux. La hausse australienne était attendue par les quatre grandes banques du pays : ce n'est pas une surprise, mais elle confirme que, pétrole oblige, plusieurs banques centrales resserrent encore. La Banque d'Angleterre doit suivre jeudi (hausse à 4 % attendue).</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>Des taux longs américains proches de 5 % pèsent sur les valorisations de la tech et sur l'or. L'emploi de vendredi reste l'arbitre de la Fed de décembre.</li>
+        <li>En Europe, la BCE (taux de dépôt à 2,50 %) reste en retrait. L'écart OAT-Bund (≈ 160 pb) dépend davantage de la note de la France, revue par S&amp;P le 27 novembre.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://www.rba.gov.au/media-releases/2026/mr-26-30.html">RBA</a> · <a href="https://www.abc.net.au/news/2026-11-03/rba-lifts-interest-rates-november-2026-highest-rate-in-18-years/107340050">ABC News</a> · <a href="https://www.babypips.com/news/headline-rba-interest-rate-decision-november-2026-fifth-hike-split-vote">Babypips</a> · <a href="https://fxstreet.com/news/gold-falls-near-3-900-amid-rising-us-yields-and-fed-hawkish-bets-202611031909">FXStreet</a> · <a href="https://www.tradingpedia.com/2026/11/03/canadian-dollar-gains-as-oil-rebounds-usd-cad-retreats/">Tradingpedia</a> · <a href="https://www.cnn.com/2026/10/28/business/live-news/federal-reserve-interest-rate-october">CNN</a></p>
+  </article>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip hot">Crypto</span><span class="chip">Flux</span></div>
+    <h3>Le bitcoin remonte malgré de nouvelles sorties des ETF</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p>Le bitcoin gagne 1,54 % à 77 860 $ et l'ether 2,07 % à 2 296 $. Les ETF bitcoin américains auraient pourtant perdu ≈ 399 M$ sur la séance, dont ≈ 405 M$ pour l'IBIT de BlackRock, sa plus forte sortie depuis juin (chiffres à confirmer par Farside). Binance affirme avoir intégralement reconstitué les actifs volés lors du piratage d'environ 6,3 Md$, attribué par le FBI à la Corée du Nord.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>Hier, nous signalions 3,64 Md$ de sorties nettes chez Binance et ≈ 614 M$ de sorties sur les ETF bitcoin. Les chiffres de flux divergent selon les sources, mais le sens est le même : les investisseurs institutionnels réduisent leur exposition depuis le piratage. Le rebond du jour suit plutôt celui des semi-conducteurs. Pour ViaBTC, ces sorties traduisent un « choc de sentiment ».</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>Le bitcoin s'éloigne de son support (76 118 $, −2,2 %) et vise sa résistance à 80 055 $ (+2,8 %), touchée quatre fois.</li>
+        <li>Le résultat des élections compte pour la régulation : une Chambre démocrate rendrait le projet de loi CLARITY moins probable.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://www.newsbytesapp.com/news/business/bitcoin-holds-around-76900-after-binance-withdrawals-us-etf-outflows/tldr">NewsBytes</a> · <a href="https://decrypt.co/382309/bitcoin-etf-investors-exits-record-binance-hack">Decrypt</a> · <a href="https://www.theblock.co/news/markets/2026-11-01-spot-bitcoin-etfs-largest-four-months-following-binance-hack-432270">The Block</a> · <a href="https://thecurrencyanalytics.com/bitcoin/binance-net-outflows-hit-3-64b-bitcoin-holds-77-900-307503">The Currency Analytics</a></p>
+  </article>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Brèves</span>
+    <h2>Le reste de l'actualité</h2>
+  </div>
+  <div class="breves">
+    <div>
+      <h3>Entreprises</h3>
+      <ul>
+        <li><strong>Alstom</strong> perd encore ≈ 4,8 % à ≈ 11,13 €, avec des volumes en hausse de 92 % sur la moyenne de cinq séances. JPMorgan abaisse sa recommandation à « neutre » au lendemain de l'avertissement. <a href="https://www.abcbourse.com/marches/volumes-anormaux-en-bourse-de-paris-alstom_705507">AbcBourse</a></li>
+        <li><strong>Euronext</strong> (−3,49 %) finit lanterne rouge du CAC 40 et <strong>EssilorLuxottica</strong> cède 1,42 % à 184,25 €. <a href="https://news.jkn.co.kr/editions/french/post/1068193">JKN</a></li>
+        <li><strong>Safran</strong> est retenu sur trois programmes de navigation inertielle pour la dissuasion nucléaire française. Les sources divergent sur sa séance (≈ −1,1 % à −1,6 % selon Boursorama et Zonebourse). <a href="https://www.zonebourse.com/cours/action/SAFRAN-4696/cotations/">Zonebourse</a></li>
+        <li><strong>Apple</strong> : 33 Md$ d'engagements de fabrication supplémentaires, signe que le groupe sécurise ses composants malgré la flambée de la mémoire. <a href="https://thecryptobasic.com/2026/11/03/apple-stock-falls-as-manufacturing-commitments-jump-33-billion-amid-margin-pressure/">The Crypto Basic</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Géopolitique</h3>
+      <ul>
+        <li><strong>Iran</strong> : Téhéran minimise les espoirs d'accord après les frappes américaines, mais les échanges via le Qatar continuent. <a href="https://www.cbsnews.com/live-updates/iran-war-us-trump-negotiations-midterms/">CBS News</a></li>
+        <li><strong>Israël</strong> : Benyamin Netanyahou pousse l'administration Trump à mener de nouvelles frappes, selon des responsables cités par l'AP. <a href="https://abc7news.com/post/us-iran-war-news-israels-benjamin-netanyahu-wants-donald-trump-administration-carry-new-strikes-officials-tell-ap/20009648/">ABC7 / AP</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Macro</h3>
+      <ul>
+        <li><strong>Taux européens</strong> : OAT 10 ans ≈ 4,91 %, Bund ≈ 3,31 %, écart ≈ 160 pb, stable par rapport à hier. <a href="https://www.ideal-investisseur.fr/en/markets/oat-bund-spread.html">Idéal Investisseur</a></li>
+        <li><strong>Dollar</strong> : le dollar index reste proche de 102 (101,86) et l'euro gagne 0,34 % à 1,1194 $. <a href="https://tmgm.com/en/analysis/market-news/article/united-states-dollar-index-holds-steady-near-10200-ahead-of-us-midterm-elections-202611030314">TMGM</a></li>
+        <li><strong>Australie</strong> : un économiste cité par ABC n'exclut pas deux hausses supplémentaires au premier semestre 2027. Prochaine décision le 8 décembre. <a href="https://www.abc.net.au/news/2026-11-03/rba-lifts-interest-rates-november-2026-highest-rate-in-18-years/107340050">ABC News</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Crypto</h3>
+      <ul>
+        <li>Rebond général : <strong>Solana</strong> +2,06 %, <strong>Litecoin</strong> +1,96 %, <strong>Tron</strong> +1,21 %. Sur cinq jours, Tron reste en baisse de 7,89 %.</li>
+        <li><strong>ETF ether</strong> : ≈ 431,5 M$ de sorties sur la dernière semaine. <a href="https://www.analyticsinsight.net/cryptocurrency-analytics-insight/bitcoin-and-ether-outlook-how-the-binance-hack-is-affecting-prices">Analytics Insight</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Rotation</span>
+    <h2>Secteurs gagnants et perdants</h2>
+  </div>
+  <div class="sectors">
+    <div><span class="label up">Profitent</span><ul>
+      <li><strong>Semi-conducteurs</strong> : rebond après trois séances de baisse, AMD en tête avant ses résultats.</li>
+      <li><strong>Luxe</strong> : LVMH gagne 1,99 % et franchit une résistance.</li>
+      <li><strong>Cryptos</strong> : bitcoin et ether progressent malgré les sorties des ETF.</li>
+      <li><strong>Banques françaises</strong> : BNP gagne 0,65 %, soutenue par ses rachats d'actions.</li>
+    </ul></div>
+    <div><span class="label down">Pâtissent</span><ul>
+      <li><strong>Électronique grand public</strong> : Apple recule sur le coût de la mémoire.</li>
+      <li><strong>Pétrolières</strong> : TotalEnergies perd 1,08 % avec un brut sans direction.</li>
+      <li><strong>Or</strong> : −0,90 %, freiné par la remontée des taux américains.</li>
+      <li><strong>Valeurs financières de marché et ferroviaire à Paris</strong> : Euronext −3,49 %, Alstom ≈ −4,8 %.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Ma watchlist</span>
+    <h2>Tes valeurs</h2>
+    <p class="note">Repères informatifs : niveaux techniques calculés sur un an de cours et consensus des analystes. Ce ne sont ni des prévisions ni des recommandations. Un franchissement aujourd'hui (LVMH au-dessus de sa résistance à 399,55 €) ; viennent ensuite les valeurs à moins de 2 % d'un niveau. Fondamentaux repris de l'édition du 2 novembre (aucun objectif d'analyste modifié trouvé aujourd'hui).</p>
+  </div>
+  <div class="fiches">
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>LVMH (MC.PA)</h3>
+        <span class="fiche-price">401,50 € · <span class="up">+1,99 % aujourd'hui</span> <span class="ytd-box down" title="Performance depuis le 1er janvier">YTD −37,8 %</span> · <span class="up">+3,41 % sur 5 séances</span></span>
+      </div>
+      <div class="tags"><span class="chip">Qualité</span><span class="chip">Cyclique</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p><strong>Franchissement de la résistance à 399,55 €</strong>, qui disparaît des niveaux calculés. La MM50 (403,35 €) est à 0,5 % au-dessus du cours. Aucune nouvelle propre au groupe trouvée aujourd'hui : le titre a bénéficié de la bonne tenue du luxe dans un CAC 40 en léger repli.</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>PER estimé 2026</dt><dd>≈ 17,4 (moy. hist. n.d.)</dd></div>
+        <div><dt>Rendement</dt><dd>≈ 3,4 %</dd></div>
+        <div><dt>Dette nette / Ebitda</dt><dd>n.d.</dd></div>
+        <div><dt>Tendance</dt><dd>Baissière, rebond en cours</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 9 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 9.9%">MM50</span>
+          <span class="range-ma" style="left: 9.9%"></span>
+          <span class="range-ma-label" style="left: 33%">MM200</span>
+          <span class="range-ma" style="left: 33%"></span>
+          <span class="range-tick sup" style="left: 0.6%"></span><span class="range-tag sup" style="left: 0.6%">S1</span>
+          <span class="range-tick res" style="left: 23.9%"></span><span class="range-tag res" style="left: 23.9%">R1</span>
+          <span class="range-tick res" style="left: 26.7%"></span><span class="range-tag res row2" style="left: 26.7%">R2</span>
+          <span class="range-mark" style="left: 9.3%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 375,65 €</span><span>Plus haut 1 an 654,70 €</span></div>
+        <ol class="ladder">
+          <li class="ma"><span>MM200</span><span>467,77 €</span><span>+16,5 %</span></li>
+          <li class="res"><span>R2</span><span>450,20 €</span><span>+12,1 %</span></li>
+          <li class="res"><span>R1</span><span>442,28 €</span><span>+10,2 %</span></li>
+          <li class="ma"><span>MM50</span><span>403,35 €</span><span>+0,5 %</span></li>
+          <li class="now"><span>Cours</span><span>401,50 €</span><span></span></li>
+          <li class="sup"><span>S1</span><span>377,23 €</span><span>−6,0 %</span></li>
+        </ol>
+      </div>
+      <p>Pourquoi « Qualité » et « Cyclique » : LVMH a des marques fortes et des marges élevées, mais ses ventes dépendent de la consommation de luxe, surtout chinoise. Après trois séances de hausse, le titre est sorti de la zone 393-399 € qui le plafonnait. Il reste tout en bas de sa fourchette annuelle (9 %), en baisse de 38 % depuis janvier. Le prochain test est la MM50, juste au-dessus ; au-delà, aucune résistance avant 442 €, ce qui laisse un espace de 10 %. Les chiffres chinois d'Apple (ventes en Chine sous les attentes) rappellent que la demande du pays reste fragile. Un acompte sur dividende de ≈ 6,05 € serait détaché fin novembre (MoneyRadar, non confirmé).</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">442,28 € (+10,2 %)</span><p class="note">Il faudrait d'abord reprendre la MM50 (403,35 €), puis des signes de reprise de la consommation chinoise.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">377,23 € (−6,0 %)</span><p class="note">Un retour sous 399,55 € annulerait le franchissement. Le support, touché 3 fois, est proche du plus bas annuel.</p></div>
+        <div class="scenario"><span class="label">Consensus analystes</span><span class="target">≈ 498 € (+24,0 %)</span><p class="note">Objectif moyen, 27 analystes (Zonebourse). Fourchette 415 à 594,70 € (Idéal Investisseur).</p></div>
+      </div>
+      <p class="src">Sources : <a href="https://www.zonebourse.com/cours/action/LVMH-4669/consensus/">Zonebourse</a> · <a href="https://www.ideal-investisseur.fr/en/analyst-consensus/lvmh/FR0000121014.html">Idéal Investisseur</a> · <a href="https://www.tradingkey.com/analysis/stocks/us-stocks/262266155-apple-stock-forecast-q4-earnings-memory-costs-margin-guide-330-support-november-3-2026-tradingkey">TradingKey (Apple Chine)</a> · niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>BNP Paribas (BNP.PA)</h3>
+        <span class="fiche-price">87,61 € · <span class="up">+0,65 % aujourd'hui</span> <span class="ytd-box up" title="Performance depuis le 1er janvier">YTD +8,4 %</span> · <span class="up">+0,75 % sur 5 séances</span></span>
+      </div>
+      <div class="tags"><span class="chip">Value</span><span class="chip">Cyclique</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p><strong>À 0,6 % de sa résistance (88,17 €).</strong> Le titre progresse pour la deuxième séance, porté par le programme de rachat d'actions de 1,3 Md€ lancé hier. Pas d'autre nouvelle trouvée.</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>PER estimé 2026</dt><dd>≈ 7,6</dd></div>
+        <div><dt>Rendement</dt><dd>≈ 6,9 %</dd></div>
+        <div><dt>Cours / valeur comptable</dt><dd>n.d.</dd></div>
+        <div><dt>Rentabilité des fonds propres</dt><dd>n.d.</dd></div>
+        <div><dt>Tendance</dt><dd>Baissière, sous MM200</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 46 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 62.2%">MM200 · MM50</span>
+          <span class="range-ma" style="left: 62.1%"></span>
+          <span class="range-ma" style="left: 62.2%"></span>
+          <span class="range-tick sup" style="left: 35.5%"></span><span class="range-tag sup" style="left: 35.5%">S2</span>
+          <span class="range-tick sup" style="left: 41.5%"></span><span class="range-tag sup row2" style="left: 41.5%">S1</span>
+          <span class="range-tick res" style="left: 47.3%"></span><span class="range-tag res" style="left: 47.3%">R1</span>
+          <span class="range-tick res" style="left: 54.6%"></span><span class="range-tag res row2" style="left: 54.6%">R2</span>
+          <span class="range-mark" style="left: 46.2%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 65,12 €</span><span>Plus haut 1 an 113,82 €</span></div>
+        <ol class="ladder">
+          <li class="ma"><span>MM50</span><span>95,42 €</span><span>+8,9 %</span></li>
+          <li class="ma"><span>MM200</span><span>95,37 €</span><span>+8,9 %</span></li>
+          <li class="res"><span>R2</span><span>91,71 €</span><span>+4,7 %</span></li>
+          <li class="res"><span>R1</span><span>88,17 €</span><span>+0,6 %</span></li>
+          <li class="now"><span>Cours</span><span>87,61 €</span><span></span></li>
+          <li class="sup"><span>S1</span><span>85,32 €</span><span>−2,6 %</span></li>
+          <li class="sup"><span>S2</span><span>82,41 €</span><span>−5,9 %</span></li>
+        </ol>
+      </div>
+      <p>Pourquoi « Value » et « Cyclique » : le titre se paie environ 7,6 fois les bénéfices attendus, pour un rendement estimé proche de 7 %, mais il reste très sensible au cycle du crédit et à la dette française. Le 3e trimestre a été bon (bénéfice de 3,46 Md€, +13,5 %, objectifs confirmés). La MM50 est passée sous la MM200, signe d'une tendance qui s'est retournée cet automne, et le cours reste environ 9 % sous les deux. L'OAT proche de 4,9 % et la revue de la note de la France par S&amp;P le 27 novembre restent les principaux freins. Ratio cours / valeur comptable et rentabilité des fonds propres : n.d. dans les sources consultées.</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">88,17 € (+0,6 %)</span><p class="note">Puis 91,71 € (+4,7 %). Il faudrait une détente de l'écart OAT-Bund, avec le soutien des rachats.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">85,32 € (−2,6 %)</span><p class="note">Puis 82,41 € (−5,9 %). Il serait atteint si l'OAT repassait au-dessus de 5 % ou en cas de crainte d'une dégradation de la note française.</p></div>
+        <div class="scenario"><span class="label">Consensus analystes</span><span class="target">≈ 118,91 € (+35,7 %)</span><p class="note">Objectif médian, 22 analystes (Boursorama) ; moyenne 119,75 € sur 19 analystes (Zonebourse). Fourchette ≈ 100 à 136 € (Idéal Investisseur).</p></div>
+      </div>
+      <p class="src">Sources : <a href="https://group.bnpparibas/communique-de-presse/bnp-paribas-lance-son-programme-de-rachat-d-actions-au-titre-de-l-exercice-2026-d-un-montant-de-1-3-miliard-d-euros">BNP Paribas</a> · <a href="https://www.boursorama.com/cours/consensus/1rPBNP/">Boursorama</a> · <a href="https://www.ideal-investisseur.fr/en/analyst-consensus/bnp-paribas-act-a/FR0000131104.html">Idéal Investisseur</a> · niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>Amundi MSCI USA Daily x2 (CL2.PA)</h3>
+        <span class="fiche-price">32,49 € · <span class="down">−1,23 % aujourd'hui</span> <span class="ytd-box up" title="Performance depuis le 1er janvier">YTD +29,8 %</span> · <span class="down">−4,75 % sur 5 séances</span></span>
+      </div>
+      <div class="tags"><span class="chip">ETF à levier x2</span><span class="chip hot">Spéculatif</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p><strong>Repassé sous sa MM50 (32,67 €, +0,6 %)</strong>, avec une nouvelle résistance à 32,85 € (+1,1 %). La clôture parisienne a intégré la baisse de Wall Street lundi soir. Elle ne reflète pas encore la fin de séance américaine de mardi (S&amp;P 500 +0,36 %), ni la hausse de l'euro (+0,34 %), qui réduit la performance en euros.</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>Jour</dt><dd>−1,23 %</dd></div>
+        <div><dt>Position 1 an</dt><dd>81 %</dd></div>
+        <div><dt>Écart MM50</dt><dd>−0,6 %</dd></div>
+        <div><dt>Tendance</dt><dd>Haussière, repli sous MM50</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 81 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 53.7%">MM200</span>
+          <span class="range-ma" style="left: 53.7%"></span>
+          <span class="range-ma-label" style="left: 82.5%">MM50</span>
+          <span class="range-ma" style="left: 82.5%"></span>
+          <span class="range-tick sup" style="left: 70.1%"></span><span class="range-tag sup" style="left: 70.1%">S2</span>
+          <span class="range-tick sup" style="left: 75.7%"></span><span class="range-tag sup row2" style="left: 75.7%">S1</span>
+          <span class="range-tick res" style="left: 83.9%"></span><span class="range-tag res row2" style="left: 83.9%">R1</span>
+          <span class="range-tick res" style="left: 100%"></span><span class="range-tag res" style="left: 100%">R2</span>
+          <span class="range-mark" style="left: 81.1%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 22,15 €</span><span>Plus haut 1 an 34,90 €</span></div>
+        <ol class="ladder">
+          <li class="res"><span>R2</span><span>34,90 €</span><span>+7,4 %</span></li>
+          <li class="res"><span>R1</span><span>32,85 €</span><span>+1,1 %</span></li>
+          <li class="ma"><span>MM50</span><span>32,67 €</span><span>+0,6 %</span></li>
+          <li class="now"><span>Cours</span><span>32,49 €</span><span></span></li>
+          <li class="sup"><span>S1</span><span>31,80 €</span><span>−2,1 %</span></li>
+          <li class="sup"><span>S2</span><span>31,09 €</span><span>−4,3 %</span></li>
+          <li class="ma"><span>MM200</span><span>29,00 €</span><span>−10,7 %</span></li>
+        </ol>
+      </div>
+      <p>L'ETF double chaque jour la variation du MSCI USA ; en euros, sa performance dépend aussi de l'EUR/USD (1,1194). La remise à zéro quotidienne du levier fait que, sur plusieurs jours de marché agité, il fait moins bien que deux fois l'indice. Sur cinq séances, il perd 4,75 % quand le S&amp;P 500 cède 1,99 %. Le soir des élections, avec AMD après la clôture et l'emploi vendredi, l'écart d'horaires avec Wall Street compte : la séance de mercredi intégrera à la fois la fin de séance de mardi et la première réaction aux résultats électoraux.</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">32,85 € (+1,1 %)</span><p class="note">Au-dessus de la MM50, puis le plus haut annuel à 34,90 € (+7,4 %). Il faudrait un scrutin sans contestation et une hausse confirmée des semi-conducteurs.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">31,80 € (−2,1 %)</span><p class="note">Atteint en cas de recul d'environ 1 % du marché américain, puis 31,09 € (−4,3 %).</p></div>
+        <div class="scenario"><span class="label">Consensus analystes</span><span class="target">sans objet</span><p class="note">Pas de consensus pour un ETF : voir les fiches S&amp;P 500 et Nasdaq 100.</p></div>
+      </div>
+      <p class="src">Sources : niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>Ether (ETH-USD)</h3>
+        <span class="fiche-price">2 296 $ · <span class="up">+2,07 % aujourd'hui</span> <span class="ytd-box down" title="Performance depuis le 1er janvier">YTD −22,6 %</span> · <span class="up">+2,05 % sur 5 jours</span></span>
+      </div>
+      <div class="tags"><span class="chip">Crypto</span><span class="chip hot">Spéculatif</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p><strong>Encadré : résistance à 1,1 % (2 321 $), support à 1,8 % (2 255 $).</strong> Le calcul fait apparaître un nouveau support à 2 255 $. Les ETF ether ont perdu ≈ 431,5 M$ sur la dernière semaine.</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>24 h</dt><dd>+2,07 %</dd></div>
+        <div><dt>Position 1 an</dt><dd>33 %</dd></div>
+        <div><dt>ETF US (semaine)</dt><dd>≈ −431,5 M$</dd></div>
+        <div><dt>Tendance</dt><dd>Neutre, entre MM50 et MM200</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 33 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 27%">MM200</span>
+          <span class="range-ma" style="left: 27%"></span>
+          <span class="range-ma-label" style="left: 41.6%">MM50</span>
+          <span class="range-ma" style="left: 41.6%"></span>
+          <span class="range-tick sup" style="left: 29.1%"></span><span class="range-tag sup" style="left: 29.1%">S2</span>
+          <span class="range-tick sup" style="left: 31.1%"></span><span class="range-tag sup row2" style="left: 31.1%">S1</span>
+          <span class="range-tick res" style="left: 33.8%"></span><span class="range-tag res" style="left: 33.8%">R1</span>
+          <span class="range-tick res" style="left: 35.7%"></span><span class="range-tag res row2" style="left: 35.7%">R2</span>
+          <span class="range-mark" style="left: 32.8%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 1 507 $</span><span>Plus haut 1 an 3 913 $</span></div>
+        <ol class="ladder">
+          <li class="ma"><span>MM50</span><span>2 507 $</span><span>+9,2 %</span></li>
+          <li class="res"><span>R2</span><span>2 366 $</span><span>+3,0 %</span></li>
+          <li class="res"><span>R1</span><span>2 321 $</span><span>+1,1 %</span></li>
+          <li class="now"><span>Cours</span><span>2 296 $</span><span></span></li>
+          <li class="sup"><span>S1</span><span>2 255 $</span><span>−1,8 %</span></li>
+          <li class="sup"><span>S2</span><span>2 206 $</span><span>−3,9 %</span></li>
+          <li class="ma"><span>MM200</span><span>2 157 $</span><span>−6,1 %</span></li>
+        </ol>
+      </div>
+      <p>Pas de fondamentaux classiques : les flux et la régulation priment. L'ether a rebondi de 2 % après un plus bas de deux mois à 2 178 $ la semaine dernière. Les pirates de Binance détiennent encore des ether issus de la conversion d'environ 325 M$ de stablecoins : d'éventuelles reventes restent un risque. Le cours se loge dans une zone étroite entre 2 255 $ et 2 321 $, au-dessus de sa MM200 mais 9 % sous sa MM50. Les élections comptent pour le projet de loi CLARITY.</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">2 321 $ (+1,1 %)</span><p class="note">Puis 2 366 $ (+3,0 %, 3 touches). Il faudrait que les flux des ETF ether redeviennent positifs.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">2 255 $ (−1,8 %)</span><p class="note">Puis 2 206 $ (−3,9 %) et la MM200 (2 157 $). Des reventes des pirates ou de nouvelles sorties pourraient l'y mener.</p></div>
+        <div class="scenario"><span class="label">Flux et régulation</span><span class="target">ETF : ≈ −431,5 M$ / semaine</span><p class="note">Cinquième semaine de sorties consécutive (TokenPost, Analytics Insight).</p></div>
+      </div>
+      <p class="src">Sources : <a href="https://www.analyticsinsight.net/cryptocurrency-analytics-insight/bitcoin-and-ether-outlook-how-the-binance-hack-is-affecting-prices">Analytics Insight</a> · <a href="https://www.tokenpost.com/news/investing/46596">TokenPost</a> · niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>Dow Jones (^DJI)</h3>
+        <span class="fiche-price">51 787 · <span class="down">−0,38 % aujourd'hui</span> <span class="ytd-box up" title="Performance depuis le 1er janvier">YTD +7,8 %</span> · <span class="down">−1,13 % sur 5 séances</span></span>
+      </div>
+      <div class="tags"><span class="chip">Indice</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p><strong>À 1,3 % de son support (51 125)</strong>, repassé à 0,7 % sous sa MM50. Apple (≈ −2 %), lourdement pondéré dans un indice calculé sur les prix, a pesé sur la séance.</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>PER 12 mois</dt><dd>n.d.</dd></div>
+        <div><dt>Position 1 an</dt><dd>69 %</dd></div>
+        <div><dt>Écart MM200</dt><dd>+2,3 %</dd></div>
+        <div><dt>Tendance</dt><dd>Neutre, sous MM50</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 69 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 57.5%">MM200</span>
+          <span class="range-ma" style="left: 57.5%"></span>
+          <span class="range-ma-label" style="left: 73.3%">MM50</span>
+          <span class="range-ma" style="left: 73.3%"></span>
+          <span class="range-tick sup" style="left: 47.8%"></span><span class="range-tag sup" style="left: 47.8%">S2</span>
+          <span class="range-tick sup" style="left: 62.6%"></span><span class="range-tag sup row2" style="left: 62.6%">S1</span>
+          <span class="range-tick res" style="left: 81.7%"></span><span class="range-tag res" style="left: 81.7%">R1</span>
+          <span class="range-tick res" style="left: 90.5%"></span><span class="range-tag res row2" style="left: 90.5%">R2</span>
+          <span class="range-mark" style="left: 69.5%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 45 057</span><span>Plus haut 1 an 54 744</span></div>
+        <ol class="ladder">
+          <li class="res"><span>R2</span><span>53 820</span><span>+3,9 %</span></li>
+          <li class="res"><span>R1</span><span>52 974</span><span>+2,3 %</span></li>
+          <li class="ma"><span>MM50</span><span>52 153</span><span>+0,7 %</span></li>
+          <li class="now"><span>Cours</span><span>51 787</span><span></span></li>
+          <li class="sup"><span>S1</span><span>51 125</span><span>−1,3 %</span></li>
+          <li class="ma"><span>MM200</span><span>50 630</span><span>−2,2 %</span></li>
+          <li class="sup"><span>S2</span><span>49 688</span><span>−4,1 %</span></li>
+        </ol>
+      </div>
+      <p>Hier soutenu par la rotation hors de la tech, l'indice a fait l'inverse aujourd'hui : le rebond des puces a profité au Nasdaq, tandis qu'Apple pesait sur le Dow. Banques, industrie et santé y pèsent davantage, ce qui le rend sensible au résultat des élections (régulation bancaire, dépenses publiques) et à l'emploi de vendredi. PER de l'indice : n.d.</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">52 974 (+2,3 %)</span><p class="note">Il faudrait reprendre la MM50 (52 153) et un retour des achats sur les secteurs moins chers.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">51 125 (−1,3 %)</span><p class="note">En dessous, la MM200 (50 630) puis 49 688 (−4,1 %). Une nouvelle baisse d'Apple ou un résultat électoral défavorable aux banques pourraient l'y mener.</p></div>
+        <div class="scenario"><span class="label">Valorisation</span><span class="target">n.d.</span><p class="note">PER prévisionnel de l'indice non trouvé dans les sources consultées.</p></div>
+      </div>
+      <p class="src">Sources : <a href="https://www.investing.com/news/stock-market-news/us-stock-futures-steady-apple-dips-after-mixed-earnings-4993314">Investing.com</a> · <a href="https://www.marketscreener.com/news/election-day-trading-splits-the-benchmarks-with-the-dow-lower-and-the-nasdaq-higher-ce785fdeda88f726">MarketScreener</a> · niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>TotalEnergies (TTE.PA)</h3>
+        <span class="fiche-price">82,71 € · <span class="down">−1,08 % aujourd'hui</span> <span class="ytd-box up" title="Performance depuis le 1er janvier">YTD +48,8 %</span> · <span class="down">−0,35 % sur 5 séances</span></span>
+      </div>
+      <div class="tags"><span class="chip">Value</span><span class="chip">Cyclique</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p><strong>À 1,8 % de son support (81,25 €).</strong> Deuxième séance de baisse, dans le sillage d'un Brent qui a perdu près de 2 % en séance avant de se reprendre. Pas de nouvelle propre au groupe trouvée.</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>PER estimé 2026</dt><dd>≈ 7,3 (moy. hist. n.d.)</dd></div>
+        <div><dt>Rendement</dt><dd>≈ 4,5 %</dd></div>
+        <div><dt>Dette nette / Ebitda</dt><dd>n.d.</dd></div>
+        <div><dt>Tendance</dt><dd>Haussière</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 90 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 65.3%">MM200</span>
+          <span class="range-ma" style="left: 65.3%"></span>
+          <span class="range-ma-label" style="left: 79.5%">MM50</span>
+          <span class="range-ma" style="left: 79.5%"></span>
+          <span class="range-tick sup" style="left: 79.8%"></span><span class="range-tag sup" style="left: 79.8%">S2</span>
+          <span class="range-tick sup" style="left: 86%"></span><span class="range-tag sup row2" style="left: 86%">S1</span>
+          <span class="range-tick res" style="left: 100%"></span><span class="range-tag res" style="left: 100%">R1</span>
+          <span class="range-mark" style="left: 90.3%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 52,47 €</span><span>Plus haut 1 an 85,94 €</span></div>
+        <ol class="ladder">
+          <li class="res"><span>R1</span><span>85,94 €</span><span>+3,9 %</span></li>
+          <li class="now"><span>Cours</span><span>82,71 €</span><span></span></li>
+          <li class="sup"><span>S1</span><span>81,25 €</span><span>−1,8 %</span></li>
+          <li class="sup"><span>S2</span><span>79,18 €</span><span>−4,3 %</span></li>
+          <li class="ma"><span>MM50</span><span>79,08 €</span><span>−4,4 %</span></li>
+          <li class="ma"><span>MM200</span><span>74,33 €</span><span>−10,1 %</span></li>
+        </ol>
+      </div>
+      <p>Pourquoi « Value » et « Cyclique » : PER estimé d'environ 7 et rendement attendu d'environ 4,5 %, mais des résultats qui suivent le pétrole. Le titre a gagné 49 % depuis janvier grâce au Brent et à un trimestre record. Ce PER bas repose sur un bénéfice par action 2026 presque doublé (≈ 11,31 €), qui peut baisser vite si le pétrole recule. Les frappes sur Qeshm n'ont pas ravivé la prime de risque : le marché mise sur la diplomatie. Goldman Sachs prévoit encore un Brent à 105 $ en décembre, ce qui soutiendrait les marges.</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">85,94 € (+3,9 %)</span><p class="note">Plus haut annuel ; au-delà, pas de résistance historique. Il faudrait un échec des discussions avec l'Iran ou une reprise des frappes après les élections.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">81,25 € (−1,8 %)</span><p class="note">Support touché 4 fois, puis 79,18 € (−4,3 %) près de la MM50. Un accord sur la réouverture d'Ormuz y mènerait.</p></div>
+        <div class="scenario"><span class="label">Consensus analystes</span><span class="target">≈ 89,10 € (+7,7 %)</span><p class="note">Objectif médian, 26 analystes (Boursorama). Fourchette ≈ 73,82 à 106,70 € (Idéal Investisseur).</p></div>
+      </div>
+      <p class="src">Sources : <a href="https://www.boursorama.com/cours/consensus/1rPTTE/">Boursorama</a> · <a href="https://www.ideal-investisseur.fr/en/analyst-consensus/totalenergies/FR0000120271.html">Idéal Investisseur</a> · <a href="https://www.tokenpost.com/news/investing/47912">TokenPost (Reuters)</a> · niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>Nasdaq 100 (^NDX)</h3>
+        <span class="fiche-price">28 180 · <span class="up">+0,68 % aujourd'hui</span> <span class="ytd-box up" title="Performance depuis le 1er janvier">YTD +11,6 %</span> · <span class="down">−4,96 % sur 5 séances</span></span>
+      </div>
+      <div class="tags"><span class="chip">Indice</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p><strong>À 1,9 % de sa résistance (28 722)</strong> et à 0,8 % au-dessus de sa MM200 (27 953), qu'il a défendue. Les puces ont rebondi, Apple a freiné l'indice. Après la clôture, AMD a battu le consensus et prévoit ≈ 17 Md$ de chiffre d'affaires pour le trimestre en cours.</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>PER 12 mois</dt><dd>n.d.</dd></div>
+        <div><dt>Position 1 an</dt><dd>63 %</dd></div>
+        <div><dt>Écart MM200</dt><dd>+0,8 %</dd></div>
+        <div><dt>Tendance</dt><dd>Correction, sous MM50</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 63 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 60%">MM200</span>
+          <span class="range-ma" style="left: 60%"></span>
+          <span class="range-ma-label" style="left: 81.1%">MM50</span>
+          <span class="range-ma" style="left: 81.1%"></span>
+          <span class="range-tick sup" style="left: 35.9%"></span><span class="range-tag sup" style="left: 35.9%">S2</span>
+          <span class="range-tick sup" style="left: 50.9%"></span><span class="range-tag sup row2" style="left: 50.9%">S1</span>
+          <span class="range-tick res" style="left: 69%"></span><span class="range-tag res" style="left: 69%">R1</span>
+          <span class="range-tick res" style="left: 82.2%"></span><span class="range-tag res row2" style="left: 82.2%">R2</span>
+          <span class="range-mark" style="left: 62.7%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 22 841</span><span>Plus haut 1 an 31 361</span></div>
+        <ol class="ladder">
+          <li class="res"><span>R2</span><span>29 846</span><span>+5,9 %</span></li>
+          <li class="ma"><span>MM50</span><span>29 753</span><span>+5,6 %</span></li>
+          <li class="res"><span>R1</span><span>28 722</span><span>+1,9 %</span></li>
+          <li class="now"><span>Cours</span><span>28 180</span><span></span></li>
+          <li class="ma"><span>MM200</span><span>27 953</span><span>−0,8 %</span></li>
+          <li class="sup"><span>S1</span><span>27 176</span><span>−3,6 %</span></li>
+          <li class="sup"><span>S2</span><span>25 898</span><span>−8,1 %</span></li>
+        </ol>
+      </div>
+      <p>Hier à 0,2 % de sa MM200, l'indice a tenu ce niveau, ce qui est techniquement important après une baisse de près de 5 % en cinq séances. Il reste à environ 10 % de son record du 6 octobre. Le marché fait le tri dans le thème de l'IA : il sanctionne les financements par dette ou dilution (Oracle, Marvell) et les coûts qui montent (Apple), mais récompense la demande visible (AMD, Palantir). Qualcomm et Arm publient cette semaine (date ≈), l'emploi tombe vendredi. PER de l'indice : n.d. (dernier relevé trouvé ≈ 27,4 fin 2025, Siblis Research).</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">28 722 (+1,9 %)</span><p class="note">Résistance touchée 7 fois, puis 29 846 (+5,9 %) près de la MM50. Il faudrait que la hausse d'AMD se confirme et un scrutin sans contestation.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">27 176 (−3,6 %)</span><p class="note">Cela suppose une clôture sous la MM200. Une remontée des taux longs au-dessus de 5 % ou une déception de Qualcomm pourraient l'y mener.</p></div>
+        <div class="scenario"><span class="label">Valorisation</span><span class="target">n.d.</span><p class="note">PER prévisionnel actuel non trouvé dans les sources consultées. Pas de consensus d'objectif pour un indice.</p></div>
+      </div>
+      <p class="src">Sources : <a href="https://finance.yahoo.com/markets/stocks/articles/stock-market-today-dow-futures-130822524.html">Yahoo Finance</a> · <a href="https://www.investing.com/news/earnings/amd-stock-jumps-after-hours-as-quarterly-results-revenue-guidance-beat-estimates-4996344">Investing.com</a> · <a href="https://siblisresearch.com/data/nasdaq-100-pe-ratio/">Siblis Research</a> · niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>S&amp;P 500 (^GSPC)</h3>
+        <span class="fiche-price">7 569 · <span class="up">+0,36 % aujourd'hui</span> <span class="ytd-box up" title="Performance depuis le 1er janvier">YTD +10,6 %</span> · <span class="down">−1,99 % sur 5 séances</span></span>
+      </div>
+      <div class="tags"><span class="chip">Indice</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p>Rien de franchi. L'indice met fin à trois séances de baisse. Il est à 1,6 % sous sa MM50 (7 693) et 3,5 % au-dessus de sa MM200 (7 316).</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>PER 12 mois</dt><dd>18,7 (moy. 10 ans 19,1)</dd></div>
+        <div><dt>Position 1 an</dt><dd>82 %</dd></div>
+        <div><dt>Écart MM200</dt><dd>+3,5 %</dd></div>
+        <div><dt>Tendance</dt><dd>Haussière, repli court terme</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 82 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 65.4%">MM200</span>
+          <span class="range-ma" style="left: 65.4%"></span>
+          <span class="range-ma-label" style="left: 90.1%">MM50</span>
+          <span class="range-ma" style="left: 90.1%"></span>
+          <span class="range-tick sup" style="left: 42.3%"></span><span class="range-tag sup" style="left: 42.3%">S2</span>
+          <span class="range-tick sup" style="left: 64%"></span><span class="range-tag sup row2" style="left: 64%">S1</span>
+          <span class="range-tick res" style="left: 97.2%"></span><span class="range-tag res" style="left: 97.2%">R1</span>
+          <span class="range-mark" style="left: 81.9%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 6 317</span><span>Plus haut 1 an 7 845</span></div>
+        <ol class="ladder">
+          <li class="res"><span>R1</span><span>7 802</span><span>+3,1 %</span></li>
+          <li class="ma"><span>MM50</span><span>7 693</span><span>+1,6 %</span></li>
+          <li class="now"><span>Cours</span><span>7 569</span><span></span></li>
+          <li class="ma"><span>MM200</span><span>7 316</span><span>−3,3 %</span></li>
+          <li class="sup"><span>S1</span><span>7 295</span><span>−3,6 %</span></li>
+          <li class="sup"><span>S2</span><span>6 964</span><span>−8,0 %</span></li>
+        </ol>
+      </div>
+      <p>La tendance de fond tient au-dessus de la MM200, et le rebond du jour reste modeste. Selon FactSet, la valorisation est revenue sous ses moyennes sur 5 et 10 ans. Les trois risques de la semaine se concentrent sur quelques jours : le dépouillement électoral, la réaction à AMD et l'emploi de vendredi, avec une Fed de décembre vue en hausse à ≈ 73 à 79 %.</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">7 802 (+3,1 %)</span><p class="note">Résistance touchée 5 fois, après la MM50 (7 693). Il faudrait un scrutin sans contestation et un emploi qui n'alimente pas la hausse des taux.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">7 295 (−3,6 %)</span><p class="note">Support juste sous la MM200 (7 316). Il serait atteint si les taux longs dépassaient 5 % ou si l'incertitude électorale durait.</p></div>
+        <div class="scenario"><span class="label">Valorisation</span><span class="target">PER 18,7</span><p class="note">Moyenne 5 ans 19,8 ; 10 ans 19,1 (FactSet, 30/10). Pas de consensus d'objectif pour un indice.</p></div>
+      </div>
+      <p class="src">Sources : <a href="https://insight.factset.com/sp-500-earnings-season-update-october-30-2026">FactSet</a> · <a href="https://www.cnbc.com/2026/11/02/stock-market-today-live-updates.html">CNBC</a> · niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+    <article class="fiche">
+      <div class="fiche-head">
+        <h3>Bitcoin (BTC-USD)</h3>
+        <span class="fiche-price">77 860 $ · <span class="up">+1,54 % aujourd'hui</span> <span class="ytd-box down" title="Performance depuis le 1er janvier">YTD −11,0 %</span> · <span class="up">+0,11 % sur 5 jours</span></span>
+      </div>
+      <div class="tags"><span class="chip">Crypto</span><span class="chip hot">Spéculatif</span></div>
+      <div class="today">
+        <span class="label">Aujourd'hui</span>
+        <p>Rien de franchi. Le bitcoin s'éloigne de son support (76 118 $, −2,2 %) malgré ≈ 399 M$ de sorties sur les ETF américains, dont ≈ 405 M$ pour l'IBIT de BlackRock. Binance dit avoir reconstitué l'intégralité des actifs volés.</p>
+      </div>
+      <dl class="metrics">
+        <div><dt>24 h</dt><dd>+1,54 %</dd></div>
+        <div><dt>Position 1 an</dt><dd>38 %</dd></div>
+        <div><dt>ETF US (jour)</dt><dd>≈ −399 M$</dd></div>
+        <div><dt>Tendance</dt><dd>Neutre, entre MM50 et MM200</dd></div>
+      </dl>
+      <div class="range">
+        <span class="label">Fourchette 1 an et niveaux</span>
+        <div class="range-bar" role="img" aria-label="Cours à 38 % de sa fourchette sur un an">
+          <div class="range-track"></div>
+          <span class="range-ma-label" style="left: 29.1%">MM200</span>
+          <span class="range-ma" style="left: 29.1%"></span>
+          <span class="range-ma-label" style="left: 45.6%">MM50</span>
+          <span class="range-ma" style="left: 45.6%"></span>
+          <span class="range-tick sup" style="left: 31.9%"></span><span class="range-tag sup" style="left: 31.9%">S2</span>
+          <span class="range-tick sup" style="left: 34.6%"></span><span class="range-tag sup row2" style="left: 34.6%">S1</span>
+          <span class="range-tick res" style="left: 42.1%"></span><span class="range-tag res" style="left: 42.1%">R1</span>
+          <span class="range-tick res" style="left: 46.1%"></span><span class="range-tag res row2" style="left: 46.1%">R2</span>
+          <span class="range-mark" style="left: 37.9%"></span>
+        </div>
+        <div class="range-ends"><span>Plus bas 1 an 57 748 $</span><span>Plus haut 1 an 110 765 $</span></div>
+        <ol class="ladder">
+          <li class="res"><span>R2</span><span>82 172 $</span><span>+5,5 %</span></li>
+          <li class="ma"><span>MM50</span><span>81 907 $</span><span>+5,2 %</span></li>
+          <li class="res"><span>R1</span><span>80 055 $</span><span>+2,8 %</span></li>
+          <li class="now"><span>Cours</span><span>77 860 $</span><span></span></li>
+          <li class="sup"><span>S1</span><span>76 118 $</span><span>−2,2 %</span></li>
+          <li class="sup"><span>S2</span><span>74 652 $</span><span>−4,1 %</span></li>
+          <li class="ma"><span>MM200</span><span>73 160 $</span><span>−6,0 %</span></li>
+        </ol>
+      </div>
+      <p>Pas de fondamentaux classiques : les flux, l'adoption et la régulation comptent davantage. Hier collé à son support, le bitcoin a rebondi avec les semi-conducteurs, sans retour des acheteurs institutionnels : les sorties des ETF se poursuivent depuis le piratage de Binance. Les élections de mi-mandat comptent pour la régulation : une Chambre démocrate rendrait le projet de loi CLARITY moins probable. Le cours reste entre sa MM50 et sa MM200.</p>
+      <div class="scenarios">
+        <div class="scenario"><span class="label up">Scénario haussier</span><span class="target up">80 055 $ (+2,8 %)</span><p class="note">Résistance touchée 4 fois, puis 82 172 $ (+5,5 %) près de la MM50. Il faudrait un retour des entrées sur les ETF.</p></div>
+        <div class="scenario"><span class="label down">Scénario baissier</span><span class="target down">76 118 $ (−2,2 %)</span><p class="note">Puis 74 652 $ (−4,1 %) et la MM200 (73 160 $). De nouvelles sorties ou un résultat électoral défavorable au secteur pourraient l'y mener.</p></div>
+        <div class="scenario"><span class="label">Flux et régulation</span><span class="target">ETF : ≈ −399 M$ mardi</span><p class="note">Chiffre NewsBytes, à confirmer par Farside. IBIT : plus forte sortie depuis juin.</p></div>
+      </div>
+      <p class="src">Sources : <a href="https://www.newsbytesapp.com/news/business/bitcoin-holds-around-76900-after-binance-withdrawals-us-etf-outflows/tldr">NewsBytes</a> · <a href="https://decrypt.co/382309/bitcoin-etf-investors-exits-record-binance-hack">Decrypt</a> · <a href="https://www.inkl.com/news/bitcoin-price-today-btc-usd-near-77-000-as-us-midterm-elections-2026-put-crypto-bill-at-risk-heres-what-traders-need-to-know">inkl</a> · niveaux calculés sur cours Yahoo Finance</p>
+    </article>
+
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Agenda</span>
+    <h2>Ce qui arrive</h2>
+  </div>
+  <span class="label">Cette semaine</span>
+  <div class="agenda">
+    <div class="ag-row"><div class="ag-date">Mer. 4 nov.</div><div><strong>Demain : premiers résultats des élections américaines</strong>, avec le risque de « mirage rouge » des premiers dépouillements. Réaction aux résultats d'<strong>AMD</strong> à l'ouverture. <strong>Uber</strong> avant l'ouverture ; <strong>Qualcomm</strong> et <strong>Arm</strong> après la clôture (dates ≈, à confirmer). <strong>ISM des services</strong> d'octobre (date ≈, troisième jour ouvré du mois).</div></div>
+    <div class="ag-row"><div class="ag-date">Jeu. 5 nov.</div><div><strong>Banque d'Angleterre</strong> : hausse de 25 pb à 4 % attendue, puis intervention d'Andrew Bailey. Norges Bank, Banque du Mexique et Banque nationale tchèque le même jour.</div></div>
+    <div class="ag-row"><div class="ag-date">Ven. 6 nov.</div><div><strong>Emploi américain d'octobre.</strong> Consensus ≈ 55 000 à 63 000 créations, après 29 000 ; chômage 4,2 %. Chiffre clé pour la Fed de décembre. Confiance de l'université du Michigan (première estimation) et emploi canadien.</div></div>
+  </div>
+  <span class="label">Rendez-vous clés à venir</span>
+  <div class="agenda">
+    <div class="ag-row"><div class="ag-date">27 nov. <span class="countdown">J-24</span></div><div>Revue de la note de la France par S&amp;P. Elle compte pour l'OAT, l'écart avec le Bund et BNP Paribas.</div></div>
+    <div class="ag-row"><div class="ag-date">9 déc. <span class="countdown">J-36</span></div><div>Décision de la Fed, avec nouvelles projections. Probabilité d'une hausse estimée entre 73 % et 79 % aujourd'hui.</div></div>
+    <div class="ag-row"><div class="ag-date">17 déc. <span class="countdown">J-44</span></div><div>Dernière réunion de la BCE de l'année, avec nouvelles projections. Le taux de dépôt est à 2,50 %.</div></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Méthode.</strong> Synthèse rédigée à partir de CNBC, CBS News, CNN, Axios, Investing.com, MoneyCheck, TradingKey, RBA, ABC News, FXStreet, Zonebourse, Boursorama, AbcBourse, Decrypt et d'autres sources liées dans chaque dossier. Cours et niveaux techniques : Yahoo Finance. Les chiffres marqués « ≈ » ou « n.d. » ne sont pas confirmés.</p>
+  <p>Contenu informatif : faits, niveaux et impacts probables, sans recommandation d'achat ou de vente.</p>
+</footer>
+
+</div>

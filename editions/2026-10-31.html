@@ -1,0 +1,423 @@
+<title>Le Soir des Marchés</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : une colonne de lecture (~68ch), bandeau d'alerte, tableaux chiffrés en mono, dossiers en blocs Faits / Contexte / Impact. */
+:root {
+  --bg: #f2f4f6;
+  --surface: #ffffff;
+  --ink: #15202b;
+  --muted: #5a6876;
+  --line: #d5dce3;
+  --accent: #0d5c63;
+  --accent-soft: #dcecee;
+  --up: #12784a;
+  --down: #b3261e;
+  --warn-bg: #fff4e0;
+  --warn-ink: #7a4a00;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f161c; --surface: #161f27; --ink: #e4eaef; --muted: #93a1ad; --line: #2a3742;
+    --accent: #5fb7bd; --accent-soft: #1b3236; --up: #4cc38a; --down: #ff7b72;
+    --warn-bg: #2e2412; --warn-ink: #f2c46d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f161c; --surface: #161f27; --ink: #e4eaef; --muted: #93a1ad; --line: #2a3742;
+  --accent: #5fb7bd; --accent-soft: #1b3236; --up: #4cc38a; --down: #ff7b72;
+  --warn-bg: #2e2412; --warn-ink: #f2c46d; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 2.9rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.45rem; font-weight: 700; }
+h3 { font-size: 1.18rem; font-weight: 700; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.label { font-family: var(--font-display); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.up { color: var(--up); } .down { color: var(--down); } .flat { color: var(--muted); }
+
+header { display: grid; gap: 10px; border-bottom: 3px solid var(--ink); padding-bottom: 18px; }
+.mast-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: var(--font-data); font-size: 0.8rem; color: var(--muted); }
+.lede { font-size: 1.05rem; color: var(--muted); max-width: 62ch; }
+
+.alert { background: var(--warn-bg); color: var(--warn-ink); border-radius: 10px; padding: 16px 18px; display: grid; gap: 6px; }
+.alert strong { font-family: var(--font-display); }
+
+section { display: grid; gap: 18px; }
+.sec-head { display: grid; gap: 4px; }
+
+.essentiel { margin: 0; padding-left: 1.2em; display: grid; gap: 10px; }
+.essentiel li::marker { color: var(--accent); font-weight: 700; }
+
+.board { display: grid; gap: 22px; }
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+caption { text-align: left; padding-bottom: 6px; }
+th, td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; white-space: normal; }
+thead th { font-family: var(--font-display); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+td.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.note { font-size: 0.82rem; color: var(--muted); }
+
+.dossier { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; gap: 14px; }
+.dossier .kicker { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chip { font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.chip.hot { background: var(--warn-bg); color: var(--warn-ink); }
+.block { display: grid; gap: 4px; }
+.impact { border-left: 3px solid var(--accent); padding-left: 14px; display: grid; gap: 6px; }
+.impact ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+.src { font-size: 0.82rem; color: var(--muted); }
+
+.breves { display: grid; gap: 22px; }
+.breves ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; }
+
+.sectors { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.sectors > div { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 10px; align-content: start; }
+.sectors ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; }
+
+.watch { display: grid; gap: 0; }
+.watch-row { display: grid; grid-template-columns: 9.5rem 1fr; gap: 6px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.watch-row > div { min-width: 0; }
+.watch-name { font-family: var(--font-display); font-weight: 700; }
+.watch-move { font-family: var(--font-data); font-size: 0.85rem; }
+@media (max-width: 520px) { .watch-row { grid-template-columns: 1fr; } }
+
+.agenda { display: grid; gap: 0; }
+.ag-row { display: grid; grid-template-columns: 7.5rem 1fr; gap: 4px 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.ag-row > div { min-width: 0; }
+.ag-date { font-family: var(--font-data); font-size: 0.85rem; color: var(--accent); font-weight: 500; }
+@media (max-width: 520px) { .ag-row { grid-template-columns: 1fr; } }
+
+footer { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="label">Week-end · Bilan de la semaine</span>
+  <h1>Le Soir des Marchés</h1>
+  <div class="mast-meta">
+    <span>Samedi 31 octobre 2026</span>
+    <span>Bilan de la semaine du 26 au 30 octobre</span>
+    <span>Lecture ≈ 10 min</span>
+  </div>
+  <p class="lede">Une semaine en deux temps : Paris gagne 2,4 % grâce aux résultats, Wall Street finit dans le rouge, plombée par la facture de l'IA. Ce samedi, le marché attend deux choses : la reprise des retraits chez Binance dimanche et la décision de Washington sur l'Iran après les élections de mardi.</p>
+</header>
+
+<section>
+  <div class="sec-head">
+    <span class="label">En bref</span>
+    <h2>L'essentiel en cinq points</h2>
+  </div>
+  <ol class="essentiel">
+    <li><strong>La tech américaine termine la semaine en déroute.</strong> Vendredi, le Nasdaq a perdu 2,9 %, l'indice des semi-conducteurs 7,2 % et le S&amp;P 500 1,8 %, sa pire séance depuis juin. Intel (≈ −29 %) et Alphabet (≈ −13 % jeudi) sont les grands perdants. Le S&amp;P 500 aligne trois semaines de baisse.</li>
+    <li><strong>Binance couvre 90 % des pertes.</strong> La plateforme dit avoir reconstitué la couverture de 90 % des 6,3 Md$ volés, et de 100 % pour BTC, ETH, SOL et les grands stablecoins. Les retraits doivent reprendre par étapes dimanche. Le bitcoin tient au-dessus de 77 000 $.</li>
+    <li><strong>Iran : pas de frappes avant mardi, mais pas de décision non plus.</strong> Samedi, Marco Rubio a déclaré que Donald Trump « n'a pas pris de décision » sur une reprise des frappes. Les négociateurs iraniens sont à Doha. Le trafic à Ormuz reste environ 70 % sous son niveau d'avant-guerre.</li>
+    <li><strong>Pétrole en hausse, or en chute.</strong> Le Brent a gagné environ 13 % en octobre. L'once d'or a terminé la semaine à 3 898,90 $ (contrat décembre), au plus bas depuis un an, car le marché parie sur des hausses de taux.</li>
+    <li><strong>Paris résiste malgré une économie qui recule.</strong> Le CAC 40 a gagné 2,4 % sur la semaine, sa meilleure semaine depuis début août, alors que le PIB français a reculé de 0,1 % au 3e trimestre et que l'OAT 10 ans a encore approché 5 % vendredi.</li>
+  </ol>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Tableau de bord</span>
+    <h2>Les chiffres de la clôture</h2>
+    <p class="note">Clôtures du vendredi 30 octobre, sauf pour les cryptos (relevés de samedi). « ≈ » signale un chiffre issu de sources qui divergent ou d'une source unique non recoupée.</p>
+  </div>
+  <div class="board">
+    <div class="tbl-wrap">
+      <table>
+        <caption class="label">Indices actions</caption>
+        <thead><tr><th>Indice</th><th>Clôture</th><th>Vendredi</th><th>Semaine</th></tr></thead>
+        <tbody>
+          <tr><td>CAC 40</td><td class="num">7 969,42</td><td class="num flat">−0,01 %</td><td class="num up">+2,40 %</td></tr>
+          <tr><td>SBF 120</td><td class="num">6 041,11</td><td class="num down">−0,10 %</td><td class="num flat">n.d.</td></tr>
+          <tr><td>DAX</td><td class="num">25 818,75</td><td class="num down">−0,85 %</td><td class="num flat">n.d.</td></tr>
+          <tr><td>Stoxx 600</td><td class="num">646,75</td><td class="num down">≈ −0,36 %</td><td class="num flat">n.d.</td></tr>
+          <tr><td>S&amp;P 500</td><td class="num">7 580,07</td><td class="num down">≈ −1,8 %</td><td class="num down">3ᵉ sem. de baisse</td></tr>
+          <tr><td>Nasdaq Composite</td><td class="num">25 437,00</td><td class="num down">−2,86 %</td><td class="num down">≈ −2 %</td></tr>
+          <tr><td>Nasdaq 100</td><td class="num">≈ 28 385</td><td class="num down">≈ −3,5 %</td><td class="num down">≈ −2 %</td></tr>
+          <tr><td>Dow Jones</td><td class="num">51 770,31</td><td class="num down">−1,09 %</td><td class="num flat">n.d.</td></tr>
+          <tr><td>VIX</td><td class="num">19,42</td><td class="num up">+12,9 %</td><td class="num flat">n.d.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <caption class="label">Taux souverains 10 ans</caption>
+        <thead><tr><th>Emprunt</th><th>Rendement</th><th>Commentaire</th></tr></thead>
+        <tbody>
+          <tr><td>US Treasury</td><td class="num">≈ 4,90 %</td><td>≈ −6 pb vendredi, ≈ −36 pb sur octobre</td></tr>
+          <tr><td>OAT France</td><td class="num">≈ 4,95 %</td><td>pic à 4,99 % en séance vendredi</td></tr>
+          <tr><td>Bund Allemagne</td><td class="num">≈ 3,37 %</td><td>relevé du 28/10</td></tr>
+          <tr><td>Écart OAT-Bund</td><td class="num">≈ 157 pb</td><td>estimation, clôture de vendredi n.d.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <caption class="label">Matières premières et devises</caption>
+        <thead><tr><th>Actif</th><th>Niveau</th><th>Commentaire</th></tr></thead>
+        <tbody>
+          <tr><td>Brent (contrat janvier)</td><td class="num">113,43 $</td><td>+2,4 % vendredi ; contrat décembre expiré à ≈ 117,6 $</td></tr>
+          <tr><td>WTI</td><td class="num">≈ 104 $</td><td>≈ +15 % sur octobre</td></tr>
+          <tr><td>Or (contrat décembre)</td><td class="num">3 898,90 $</td><td>−3,3 % vendredi, −2,9 % sur la semaine, plus bas sur un an</td></tr>
+          <tr><td>Gaz TTF</td><td class="num">n.d.</td><td>clôture non trouvée</td></tr>
+          <tr><td>EUR/USD</td><td class="num">≈ 1,1168</td><td>source unique</td></tr>
+          <tr><td>Dollar index</td><td class="num">n.d.</td><td>dollar ferme, porté par les paris de hausse de la Fed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <caption class="label">Cryptos (marché ouvert 24/7, relevés de samedi)</caption>
+        <thead><tr><th>Actif</th><th>Prix</th><th>Semaine / jour</th></tr></thead>
+        <tbody>
+          <tr><td>Bitcoin (BTC)</td><td class="num">≈ 77 300 – 77 500 $</td><td class="num flat">stable samedi</td></tr>
+          <tr><td>Ether (ETH)</td><td class="num">≈ 2 240 $</td><td class="num down">≈ −5,2 % sur la semaine</td></tr>
+          <tr><td>Solana (SOL)</td><td class="num">≈ 96 $</td><td class="num down">≈ −5,6 % sur la semaine</td></tr>
+          <tr><td>Tron (TRX)</td><td class="num">≈ 0,333 $</td><td class="num flat">relevé de vendredi</td></tr>
+          <tr><td>Litecoin (LTC)</td><td class="num">≈ 55 $</td><td class="num flat">relevé de vendredi</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Dossiers</span>
+    <h2>Les news qui comptent</h2>
+  </div>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip hot">Bilan de la semaine</span><span class="chip">Tech · IA</span></div>
+    <h3>Wall Street ne paie plus l'IA à crédit</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p>La semaine des grands résultats technologiques s'est mal terminée. Jeudi, Alphabet a chuté d'environ 13 %, sa pire séance depuis son entrée en Bourse, après un flux de trésorerie disponible négatif de 9,1 Md$ au 3e trimestre. Vendredi, Intel a perdu environ 29 %, sa pire séance depuis 1974, après des prévisions faibles. Amazon a reculé à cause de ses dépenses d'investissement. L'indice des semi-conducteurs de Philadelphie a plongé de 7,2 %. Le Nasdaq 100 est brièvement passé en zone de correction en séance vendredi (10 % sous son sommet) avant de remonter juste au-dessus. Le S&amp;P 500 finit 3 % sous son record du 6 octobre (7 818,93). Seul le Russell 2000 des petites capitalisations termine la semaine en hausse.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>Le marché ne récompense plus les dépenses dans l'IA sans retour visible en trésorerie. La hausse de 2026, très concentrée sur une poignée de valeurs, rend les indices vulnérables à ce changement d'humeur. À Paris, le phénomène s'est vu sur Schneider Electric (−4,1 % vendredi) et Soitec (−9,6 %), mais le CAC 40, moins exposé à la tech, a profité de la rotation vers la pharma et l'énergie.</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>La semaine prochaine sera un test : Apple, AMD, Qualcomm, Palantir et Arm publient. D'autres déceptions prolongeraient la correction de la tech.</li>
+        <li>Les ETF à levier sur les indices US comme le CL2 subissent des baisses doublées. En marché agité, la remise à zéro quotidienne du levier érode leur performance.</li>
+        <li>La rotation vers des secteurs moins chers (énergie, santé, banques, petites capitalisations) peut se poursuivre si la volatilité reste élevée.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://wtop.com/national/2026/10/how-major-us-stock-indexes-fared-friday-10-30-2026">AP via WTOP</a> · <a href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-30-2026">TheStreet</a> · <a href="https://finance.yahoo.com/markets/stocks/articles/nasdaq-100-briefly-fell-correction-145406645.html">Yahoo Finance</a> · <a href="https://www.tradingsat.com/cac-40-FR0003500008/actualites/cac-40-avec-la-hausse-de-sanofi-en-soutien-le-cac-40-termine-a-l-equilibre-ce-vendredi-et-reprend-24-sur-la-semaine-1172883.html">BFM Bourse</a></p>
+  </article>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip hot">Géopolitique</span><span class="chip">Pétrole</span></div>
+    <h3>Iran : Washington temporise jusqu'aux élections, Ormuz reste dangereux</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p>Samedi, en marge de la réunion des ministres des Affaires étrangères du G20 à Atlanta, Marco Rubio a déclaré que Donald Trump « n'a pas pris de décision » sur une reprise des frappes contre l'Iran et qu'il préfère une solution diplomatique. Les négociateurs iraniens sont à Doha avec les médiateurs qataris, après plus de 12 heures de discussions à Téhéran vendredi. Le ministre iranien Abbas Araghchi juge inutile, pour l'instant, de rencontrer des responsables américains. Aucune nouvelle frappe n'a été signalée samedi. En Arabie saoudite, un drone a été abattu au-dessus de la région de Riyad, et l'ambassade américaine appelle à la prudence près des aéroports en raison des attaques houthies.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>Vendredi, les Gardiens de la révolution ont annoncé quatre explosions de pétroliers, dont un superpétrolier de plus de 2 millions de barils, sur des routes « non autorisées ». Le commandement américain affirme au contraire que les principaux couloirs sont déminés, et Donald Trump accuse Téhéran d'exagérer les incidents pour faire monter le pétrole. Selon l'UKMTO, le trafic reste environ 70 % sous son niveau d'avant-guerre. Plusieurs médias rapportent que Washington prépare ses alliés du Golfe à une série de frappes courte et intense après le scrutin du 3 novembre ; la Maison Blanche dit que le résultat des élections ne pèsera pas sur la décision.</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>Lundi, l'ouverture du pétrole dépendra des nouvelles de Doha ce week-end : une avancée ferait baisser le Brent, un nouvel incident à Ormuz le pousserait vers ses récents sommets.</li>
+        <li>Le risque de frappes après mardi maintient une prime de risque sur le pétrole, favorable à TotalEnergies et défavorable à l'aérien, au transport et à la chimie.</li>
+        <li>Un pétrole cher entretient l'inflation et les paris de hausse de taux, ce qui pèse sur les valeurs de croissance.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://www.foxnews.com/live-news/us-iran-war-trump-israel-strait-hormuz-10-31-26">Fox News (direct du 31/10)</a> · <a href="https://english.alarabiya.net/News/middle-east/2026/10/31/rubio-says-us-yet-to-decide-on-new-iran-strikes">Al Arabiya</a> · <a href="https://www.cnbc.com/2026/10/30/iran-trump-hormuz-oil-middle-east-.html">CNBC</a> · <a href="https://www.iranintl.com/en/liveblog/202610244311">Iran International</a> · <a href="https://www.cbsnews.com/live-updates/iran-war-trump-us-ceasefire-talks-ongoing/">CBS News</a></p>
+  </article>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip hot">Crypto</span><span class="chip">Cybersécurité</span></div>
+    <h3>Binance reconstitue 90 % des fonds volés, retraits attendus dimanche</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p>Samedi, Binance a annoncé avoir reconstitué la couverture de jusqu'à 90 % des actifs touchés par le vol d'environ 6,3 Md$. BTC, ETH, USDT, BNB, SOL, USDC, XRP, USD1, RLUSD et ZEC sont couverts à 100 %. Les 10 % restants concernent des jetons moins liquides, que la plateforme rachète sur le marché et de gré à gré. L'argent vient du fonds de protection des utilisateurs (SAFU), du fonds d'assurance des contrats à terme et de la trésorerie de l'entreprise. Il ne s'agit pas de fonds récupérés auprès des pirates. Les retraits doivent reprendre par étapes dimanche, sous réserve de contrôles de sécurité.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>C'est le plus gros vol de cryptos de l'histoire. TRM Labs et Chainalysis l'attribuent avec « une forte confiance » au groupe nord-coréen TraderTraitor, lié à Lazarus. Environ 3 Md$ ont été gelés, notamment par Tether et Circle. Les pirates ont converti environ 325 M$ de stablecoins en ether. Binance a découvert d'autres failles au-delà de l'ordinateur portable compromis d'un ingénieur, et l'origine exacte de l'attaque reste floue. Bitwise s'attend à un retour à la normale en une semaine, et plusieurs analystes (Cantor, TD Cowen) rappellent que le réseau bitcoin n'est pas en cause.</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>Dimanche est le moment clé : une reprise ordonnée des retraits limiterait la contagion, un report ou une ruée sur les retraits raviverait la peur d'un scénario de type FTX.</li>
+        <li>Les cryptos très présentes sur Binance (BNB, SOL) restent plus exposées que le bitcoin.</li>
+        <li>Le dossier alimentera le débat sur la régulation des plateformes aux États-Unis, juste avant les élections de mardi.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://www.cnbc.com/2026/10/31/binance-hack-asset-coverage-withdrawals.html">CNBC</a> · <a href="https://www.cnn.com/2026/10/30/tech/binance-crypto-heist-hnk-intl">CNN</a> · <a href="https://www.investing.com/news/cryptocurrency-news/bitcoin-holds-above-77000-as-binance-hack-recovery-takes-shape-4989115">Investing.com</a> · <a href="https://news.bitcoin.com/featured/wall-street-binance-hack-buy-dip-bitwise-hougan">Bitcoin.com</a></p>
+  </article>
+
+  <article class="dossier">
+    <div class="kicker"><span class="chip">Banques centrales</span><span class="chip">France</span></div>
+    <h3>Taux : la semaine qui a installé la perspective d'une hausse en décembre</h3>
+    <div class="block">
+      <span class="label">Les faits</span>
+      <p>Mercredi, la Fed a maintenu ses taux à 3,75-4 % par 10 voix contre 2 : Lisa Cook et Beth Hammack voulaient une hausse. Le marché voit désormais une hausse en décembre à environ 80 %. Jeudi, la BCE a laissé son taux de dépôt à 2,50 % et Christine Lagarde a annoncé son départ le 7 février 2027. En France, l'Insee a publié vendredi un PIB en baisse de 0,1 % au 3e trimestre et une inflation de 3,4 % en octobre. L'OAT 10 ans a touché 4,99 % en séance vendredi.</p>
+    </div>
+    <div class="block">
+      <span class="label">Le contexte</span>
+      <p>Paradoxe de la semaine : malgré la guerre et la baisse des Bourses, l'or a reculé, car les hausses de taux attendues l'emportent sur la demande de valeur refuge. Le 10 ans américain a, lui, reculé vers 4,90 % vendredi, ce qui montre une recherche de sécurité sur les obligations. Pour la France, le prochain rendez-vous est la revue de la note par S&amp;P le 27 novembre.</p>
+    </div>
+    <div class="impact">
+      <span class="label">Impact probable</span>
+      <ul>
+        <li>L'emploi américain du vendredi 6 novembre pèsera lourd : un chiffre fort conforterait une hausse de la Fed en décembre et soutiendrait le dollar.</li>
+        <li>Les banques françaises restent sensibles à l'écart OAT-Bund et au débat budgétaire.</li>
+        <li>La course à la succession de Lagarde peut faire bouger l'euro et les écarts de taux en zone euro.</li>
+      </ul>
+    </div>
+    <p class="src">Sources : <a href="https://www.cnbc.com/2026/10/28/fed-interest-rate-decision-october-2026.html">CNBC (Fed)</a> · <a href="https://www.zonebourse.com/actualite-bourse/la-bce-laisse-ses-taux-inchanges-christine-lagarde-demissionnera-en-fevrier-ce785fdad98af222">Zonebourse (BCE)</a> · <a href="https://www.insee.fr/fr/statistiques/9111036">Insee</a> · <a href="https://finance.yahoo.com/personal-finance/investing/article/gold-price-today-friday-october-30-2026-gold-slips-below-4000-as-mid-east-concerns-mount-111451238.html">Yahoo Finance (or)</a></p>
+  </article>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Brèves</span>
+    <h2>Le reste de la semaine</h2>
+  </div>
+  <div class="breves">
+    <div>
+      <h3>Entreprises</h3>
+      <ul>
+        <li><strong>Sanofi</strong> +4,7 % vendredi à 79,74 €, meilleure performance du CAC 40, après un deuxième relèvement de ses objectifs annuels. <a href="https://www.zonebourse.com/actualite-bourse/paris-termine-octobre-quasi-stable-ce785fdbd18af121">Zonebourse</a></li>
+        <li><strong>TotalEnergies</strong> : bénéfice net ajusté record de 9,1 Md$ au 3e trimestre, porté par le raffinage. <a href="https://www.boursorama.com/bourse/actualites/totalenergies-affiche-un-3e-trimestre-solide-malgre-les-tensions-au-moyen-orient-7a7282b73ac13b769135387246f3e78b">Boursorama</a></li>
+        <li><strong>BNP Paribas</strong> : bénéfice net de 3,46 Md€ au 3e trimestre (+13,5 %), objectifs confirmés. <a href="https://www.xtb.com/fr/analyses-marches/action-bnp-paribas-les-activites-de-marche-stimulent-les-resultats">XTB</a></li>
+        <li><strong>Crédit Agricole</strong> −2 % et <strong>Schneider Electric</strong> −4,1 % vendredi à Paris. <a href="https://www.zonebourse.com/actualite-bourse/cac-40-la-bourse-de-paris-cloture-sans-grand-changement-sous-une-pluie-de-resultats-ce785fdbde8ff727">Zonebourse</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Géopolitique</h3>
+      <ul>
+        <li>Le guide suprême iranien Mojtaba Khamenei promet une « riposte sans restriction » à toute menace ; les Gardiens de la révolution annoncent un conflit élargi en cas de nouvelles frappes. <a href="https://www.foxnews.com/live-news/us-iran-war-trump-israel-strait-hormuz-10-31-26">Fox News</a></li>
+        <li>Le Pentagone chiffre le coût de la guerre à 47 Md$. <a href="https://www.cbsnews.com/live-updates/iran-war-trump-us-oil-gas-prices-strait-of-hormuz-midterms/">CBS News</a></li>
+        <li>Les ministres des Affaires étrangères du G20 ont achevé samedi deux jours de réunion à Atlanta sans consensus sur les grands dossiers de sécurité et d'économie, dont la guerre en Iran. Prochaine étape : le sommet des dirigeants à Miami en décembre. <a href="https://www.thenationalnews.com/news/us/2026/10/31/us-iran-strikes-g20-rubio/">The National</a> · <a href="https://www.deccanherald.com/world/us/us-to-host-g20-foreign-ministers-meet-in-atlanta-on-oct-30-31-4008096">Deccan Herald</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Macro</h3>
+      <ul>
+        <li>Le 2 ans américain a reculé d'environ 12,6 pb sur la semaine. <a href="https://danielsan2401.substack.com/p/weekly-wrap-26th-30th-october-two">Weekly Wrap</a></li>
+        <li>Le Stoxx 600 a signé en octobre son meilleur mois depuis juin, malgré le repli de vendredi. <a href="https://cappnotes.substack.com/p/closing-look-friday-october-30-2026">Closing Look</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Crypto</h3>
+      <ul>
+        <li>Ether a touché un plus bas de deux mois à 2 178 $ après le piratage, avant de remonter vers 2 240 $. <a href="https://www.investing.com/news/cryptocurrency-news/bitcoin-holds-above-77000-as-binance-hack-recovery-takes-shape-4989115">Investing.com</a></li>
+        <li>Solana est tombé à 92,14 $ en séance vendredi, sur fond de sorties d'ETF. <a href="https://coincentral.com/solana-sol-price-can-bulls-defend-92-after-binance-hack-and-etf-outflows/">CoinCentral</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Rotation</span>
+    <h2>Secteurs gagnants et perdants de la semaine</h2>
+  </div>
+  <div class="sectors">
+    <div>
+      <span class="label up">Profitent</span>
+      <ul>
+        <li><strong>Pétrole et raffinage</strong> : Brent +13 % en octobre, trimestre record pour TotalEnergies.</li>
+        <li><strong>Pharma</strong> : valeur refuge de la rotation (Sanofi +4,7 % vendredi).</li>
+        <li><strong>Petites capitalisations US</strong> : le Russell 2000 est le seul grand indice américain en hausse sur la semaine.</li>
+        <li><strong>Obligations d'État américaines</strong> : achats de précaution, 10 ans vers 4,90 %.</li>
+      </ul>
+    </div>
+    <div>
+      <span class="label down">Pâtissent</span>
+      <ul>
+        <li><strong>Semi-conducteurs</strong> : indice SOX −7,2 % vendredi, Intel ≈ −29 %, Soitec −9,6 % à Paris.</li>
+        <li><strong>Géants du cloud et de l'IA</strong> : Alphabet ≈ −13 % jeudi, Amazon en baisse.</li>
+        <li><strong>Crypto</strong> : piratage de Binance, ETH ≈ −5 % et SOL ≈ −6 % sur la semaine.</li>
+        <li><strong>Métaux précieux</strong> : or −2,9 %, argent, platine et palladium −7 à −9 % sur la semaine.</li>
+        <li><strong>Luxe</strong> : demande chinoise toujours faible (LVMH ≈ +1 % de croissance au 3e trimestre).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Ma watchlist</span>
+    <h2>Tes valeurs</h2>
+  </div>
+  <div class="watch">
+    <div class="watch-row">
+      <div><div class="watch-name">S&amp;P 500</div><div class="watch-move down">7 580,07 · ≈ −1,8 %</div></div>
+      <div>Pire séance depuis juin et troisième semaine de baisse. L'indice finit 3 % sous son record du 6 octobre. Semaine prochaine : élections mardi, résultats d'Apple, emploi vendredi.</div>
+    </div>
+    <div class="watch-row">
+      <div><div class="watch-name">Nasdaq 100</div><div class="watch-move down">≈ 28 385 · ≈ −3,5 %</div></div>
+      <div>Brièvement en correction en séance vendredi (−10 % sous le sommet), puis retour juste au-dessus. Environ −2 % sur la semaine. Clôture issue d'une seule source.</div>
+    </div>
+    <div class="watch-row">
+      <div><div class="watch-name">Dow Jones</div><div class="watch-move down">51 770,31 · −1,09 %</div></div>
+      <div>Mieux tenu que le Nasdaq grâce à sa plus faible part de tech. Sensible aux élections de mardi (fiscalité, régulation bancaire).</div>
+    </div>
+    <div class="watch-row">
+      <div><div class="watch-name">CL2 (Amundi)</div><div class="watch-move down">≈ −3,6 % (estimation)</div></div>
+      <div>Réplique deux fois la variation quotidienne du MSCI USA. Baisse de vendredi estimée d'après le S&amp;P 500, cours exact n.d. Le levier quotidien amplifie la volatilité attendue autour des élections et des résultats tech.</div>
+    </div>
+    <div class="watch-row">
+      <div><div class="watch-name">LVMH (MC.PA)</div><div class="watch-move flat">clôture n.d.</div></div>
+      <div>Rien de notable cette semaine après la publication d'octobre (chiffre d'affaires ≈ +1 % au 3e trimestre, Chine toujours en frein).</div>
+    </div>
+    <div class="watch-row">
+      <div><div class="watch-name">TotalEnergies (TTE)</div><div class="watch-move flat">clôture n.d.</div></div>
+      <div>Trimestre record publié cette semaine. Le titre reste suspendu au pétrole : les nouvelles de Doha ce week-end et le risque de frappes après mardi décideront de la direction du Brent.</div>
+    </div>
+    <div class="watch-row">
+      <div><div class="watch-name">BNP Paribas (BNP.PA)</div><div class="watch-move flat">clôture n.d.</div></div>
+      <div>Bénéfice en hausse de 13,5 % et objectifs confirmés. Le risque reste la dette française : OAT proche de 5 % et revue de S&amp;P le 27 novembre. Crédit Agricole a perdu 2 % vendredi dans le secteur.</div>
+    </div>
+    <div class="watch-row">
+      <div><div class="watch-name">Bitcoin (BTC)</div><div class="watch-move flat">≈ 77 300 – 77 500 $</div></div>
+      <div>Stable samedi au-dessus de 77 000 $ alors que Binance couvre 100 % du BTC volé. Dimanche, la reprise des retraits sera le premier test.</div>
+    </div>
+    <div class="watch-row">
+      <div><div class="watch-name">Ether (ETH)</div><div class="watch-move down">≈ 2 240 $ · ≈ −5,2 % semaine</div></div>
+      <div>Plus bas de deux mois à 2 178 $ après le piratage. Les pirates ont converti environ 325 M$ de stablecoins en ether ; d'éventuelles reventes sont à surveiller.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">Agenda</span>
+    <h2>La semaine qui vient</h2>
+  </div>
+  <div class="agenda">
+    <div class="ag-row"><div class="ag-date">Dim. 1ᵉʳ nov.</div><div>Reprise prévue des retraits chez Binance, par étapes. Suite des discussions à Doha entre l'Iran et les médiateurs qataris.</div></div>
+    <div class="ag-row"><div class="ag-date">Mar. 3 nov.</div><div><strong>Élections de mi-mandat américaines.</strong> Enjeux : dépenses publiques, régulation de l'IA, des banques et des cryptos. Une décision sur l'Iran est attendue après le scrutin.</div></div>
+    <div class="ag-row"><div class="ag-date">Toute la semaine</div><div>Résultats d'Apple, AMD, Qualcomm, Palantir, Arm, Uber, Pfizer, McDonald's et Berkshire Hathaway, entre autres. Dates exactes à confirmer dans l'édition de dimanche.</div></div>
+    <div class="ag-row"><div class="ag-date">Ven. 6 nov.</div><div><strong>Emploi américain d'octobre.</strong> Consensus FactSet : +55 000 emplois, chômage à 4,2 %.</div></div>
+    <div class="ag-row"><div class="ag-date">27 nov.</div><div>Revue de la note de la France par S&amp;P.</div></div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Méthode.</strong> Synthèse rédigée à partir d'AP, CNBC, CNN, Fox News, CBS News, Investing.com, Insee, Zonebourse, BFM Bourse et d'autres sources liées dans chaque dossier. Les chiffres marqués « ≈ » ou « n.d. » ne sont pas confirmés par une source de clôture officielle.</p>
+  <p>Contenu informatif : faits et impacts probables, sans recommandation d'achat ou de vente.</p>
+</footer>
+
+</div>
