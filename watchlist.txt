@@ -1,0 +1,22 @@
+# Ma watchlist : une valeur par ligne, au format "Nom | Ticker Yahoo Finance".
+# Les lignes qui commencent par # sont ignorées. Modifie ce fichier quand tu veux
+# (site ou app GitHub) : le journal du soir le relit à chaque édition.
+# Pour trouver un ticker : cherche la valeur sur finance.yahoo.com (ex. Airbus = AIR.PA).
+
+# Indices
+S&P 500 | ^GSPC
+Nasdaq 100 | ^NDX
+Dow Jones | ^DJI
+
+# ETF
+CL2 (Amundi MSCI USA Daily x2 Leveraged) | CL2.PA
+
+# Actions
+LVMH | MC.PA
+TotalEnergies | TTE.PA
+BNP Paribas | BNP.PA
+ASML Holding (Amsterdam) | ASML.AS
+
+# Cryptos
+Bitcoin | BTC-USD
+Ethereum | ETH-USD
