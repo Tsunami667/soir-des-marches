@@ -16,6 +16,7 @@ LVMH | MC.PA
 TotalEnergies | TTE.PA
 BNP Paribas | BNP.PA
 ASML Holding (Amsterdam) | ASML.AS
+Société Générale | GLE.PA
 
 # Cryptos
 Bitcoin | BTC-USD
